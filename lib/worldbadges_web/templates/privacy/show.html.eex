@@ -1,0 +1,18 @@
+<h2>Show Privacy</h2>
+
+<ul>
+
+  <li>
+    <strong>Open:</strong>
+    <%= @privacy.open %>
+  </li>
+
+  <li>
+    <strong>Settings:</strong>
+    <%#= @privacy.settings %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: privacy_path(@conn, :edit, @privacy) %></span>
+<span><%= link "Back", to: privacy_path(@conn, :index) %></span>

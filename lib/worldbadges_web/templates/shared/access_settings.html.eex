@@ -1,0 +1,128 @@
+<style media="screen">
+  .unconsent {
+    color: brown;
+    font-weight: bold !important;
+  }
+</style>
+
+<script type="text/javascript">
+  function confirmUnconsent(object) {
+    if (object.checked && confirm("WARNING! This will delete your account. \nSince without consent we can't display or store your data this will also force us to delete your account. \nAre you sure you wish to proceed?")) {
+      ajaxRequest('/delete_account')
+    } else {
+      ajaxRequest('/revoke_account_deletion')
+      object.checked = false
+    }
+  }
+
+  function ajaxRequest(url) {
+    var request = new XMLHttpRequest()
+
+    request.onreadystatechange = function(){
+      if (request.readyState === 4) {
+        var response = request.response;
+        if (request.status === 200 && request.statusText === 'OK') {
+          if (url == "/delete_account") {alert("Account will be removed in 48 hours.")}
+          else if (url == "/revoke_account_deletion") {alert("Account removal was canceled and you are still consenting with our Terms & Privacy")}
+          else {alert("Your account will be reserved.")}
+        } else if (request.status === 400) {
+          console.log(request);
+          alert(response)
+          // errorMessage(object)
+        }
+      }
+    }
+
+    request.open("GET", url);
+    request.send();
+  }
+</script>
+
+<div class="row">
+  <!-- LEFT CENTER -->
+  <div class="col-sm-2" style="height: 93vh; padding-right: 0;">
+    <div class="border">
+      <div class="row">
+        <div class="col-sm" style="padding-right: 0">
+          <%= link to: link_for_persona(@current_persona) do %>
+            <%= img_tag image_for_persona(@current_persona), class: "border", style: "width: 100%; height: 100%" %>
+          <% end %>
+        </div>
+        <div class="col-sm" style="padding-left: 0">
+          <%= link to: "/" do %>
+            <%= img_tag "/images/logo-badge.png", class: "border", style: "width: 100%; height: 100%" %>
+          <% end %>
+        </div>
+      </div>
+
+      <%= render WorldbadgesWeb.SharedView, "_buttons_bar.html", conn: @conn, current_persona: @current_persona %>
+    </div>
+
+    <br>
+
+    <br>
+    <div id="settings_url">
+      <%= link to: shared_path(@conn, :access_settings), class: "btn" do %>
+        <i class="fa fa-key" aria-hidden="true"></i> Account access
+      <% end %>
+      <%= link to: shared_path(@conn, :notifications_settings), class: "btn" do %>
+        <i class="fa fa-bell" aria-hidden="true"></i> Notifications
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-sm-10">
+    <br>
+    <div id="profile-edit" class="row" >
+      <div class="col-5">
+        <h4>Suspend or delete</h4>
+        <div class="checkbox">
+          <label class="">
+            <input type="checkbox" onclick="this.nextElementSibling.hidden = !this.nextElementSibling.hidden)"> Reserve account &nbsp;
+            <div class="right" hidden>
+              <label class="radio-inline"><input onclick="ajaxRequest('/reserve_account/3')" type="radio" name="optradio">3 months</label>
+              <label class="radio-inline"><input onclick="ajaxRequest('/reserve_account/6')" type="radio" name="optradio">6 months</label>
+            </div>
+          </label>
+        </div>
+
+        <div class="checkbox">
+          <label class="unconsent">
+            <%= checkbox(:f, :delete, checked: @current_persona.delete, onclick: "confirmUnconsent(this)") %> Unconsent Terms&Privacy (delete account)
+          </label>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <%= form_for @persona_changeset, persona_path(@conn, :update), [multipart: true], fn f -> %>
+          <%= if @persona_changeset.action do %>
+            <div class="alert alert-danger">
+              <p>Oops, something went wrong! Please check the errors below.</p>
+            </div>
+          <% end %>
+
+          <h4>New login details</h4>
+          <div class="form-group">
+            <%= text_input f, :key, value: "", placeholder: "New key", class: "form-control" %>
+            <%= error_tag f, :key %>
+          </div>
+
+          <div class="form-group">
+            <%= password_input f, :password, placeholder: "New password", class: "form-control" %>
+            <%= error_tag f, :password %>
+          </div>
+
+          <div class="form-group">
+            <%= password_input f, :password_confirmation, placeholder: "New password confirmation", class: "form-control" %>
+            <%= error_tag f, :password_confirmation %>
+          </div>
+
+          <div style="margin-top: 15px;">
+            <button class="btn main-bg" type="submit" name="button">Save</button>
+            <button class="btn btn-default" type="submit" name="button">Cancel</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

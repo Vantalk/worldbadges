@@ -1,0 +1,40 @@
+<%= render WorldbadgesWeb.SharedView, "_creation_js.html" %>
+
+<div class="row">
+  <%= render WorldbadgesWeb.SharedView, "_control_bar.html", conn: @conn, current_persona: @current_persona %>
+
+  <div class="col-sm-10">
+    <div class="col-sm-3">
+      <h4 class="main-color">
+        <i class="fa fa-file-text-o" aria-hidden="true"></i> Page
+        <b class="btn btn-sm btn-success" onclick="ajaxFormSubmit('page_create', savedMessage(this))">Save</b>
+      </h4>
+      <a href="#" onclick="toggleList(this, 'page')"><i class="fa fa-list" aria-hidden="true"></i> List all</a>
+      &nbsp;
+      <a href="#" onclick="toggleDesc(this, 'page')"><i class="fa fa-info-circle" aria-hidden="true"></i> Learn more</a>
+
+      <br><br>
+
+      <div id="list-page"></div>
+
+      <div id="desc-page" hidden>
+        Pages are divided in interest pages and persona pages. You can restrict access globally for both types, but you can also
+        decide on a per article basis on your persona page.
+        <br><b>Creation:</b> Choose a name and a badge to represent your page if you created one. <b>Public view</b> allows
+        non-members to view the page and <b>free access</b> permits anyone to post and subscribe to the page.
+      </div>
+
+      <div id="opt-page">
+        <%= render "_form_edit.html", action: page_path(@conn, :create), changeset: @changeset, badges: @badges, persona_badges: @persona_badges %>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="btn-group-vertical" style="max-height: 200px; overflow-y: scroll;">
+        <%= for persona <- @page.personas do %>
+           <button type="button" class="btn" onclick="alert(1)"><%= persona.name %></button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

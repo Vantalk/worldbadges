@@ -1,0 +1,18 @@
+<div class="dropdown">
+ <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">
+   <i class="fa fa-cog" aria-hidden="true"></i>
+   <span class="caret"></span>
+  </button>
+ <ul class="dropdown-menu">
+   <li><a href="#">Profile edit</a></li>
+   <li><a onclick="$('#content').hide();">View settings</a></li>
+   <li><a href="#">Preferences</a></li>
+   <li class="divider"></li>
+   <li><a href="#">Log out</a></li>
+ </ul>
+
+ <span style="color: white; float: right; padding-top: 1px; padding-left: 3px; font-size: 18px; font-weight: bold;">Worldbadges</span>
+ <%= link to: page_path(@conn, :index) do %>
+   <%= img_tag "/images/logo.png", style: "width: 30px; float: right;" %>
+ <% end %>
+</div>

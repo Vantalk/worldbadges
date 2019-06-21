@@ -1,0 +1,38 @@
+<div id="list_of_contacts">
+  <div id="side-search" data-offset="0" style="display: flex"> <!-- !must leave display in style else it interferes with animation -->
+    <div style="flex: auto;">
+      <input id="side-search-input" data-type="pages" type="text" placeholder="        Find pages" onkeyup="sideSearch(event)">
+    </div>
+    <button id="side-search-btn" class="btn btn-xs main-bg" style="width: 20%; margin-bottom: 1px;" type="button" onclick="sideSearch(event)">
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <div class="main-border page-group-border" style="background: white;">
+    <%= link to: "#", onclick: "toggleSideSearchObject(this)", class: "link", style: "flex: auto" do %>
+      <%= img_tag "/images/logo-badge.png", class: "small-image" %>
+      <b class="main-color">Pages </b>
+    <% end %>
+
+    <a class="btn btn-sm right" href="#" onclick="toggleSideSearch();" data-active="false">
+      <i class="fa fa-search" aria-hidden="true"></i>
+    </a>
+  </div>
+
+  <div id="page-groups">
+    <%= render "_page_groups.html", pages: @pages#, other_interests: true %>
+  </div>
+  <b>
+    <a href="#" onclick="scrollSideList(this)">Back</a>
+    <a href="#" onclick="scrollSideList(this)" style="float: right">Next</a>
+  </b>
+</div>
+<%= render WorldbadgesWeb.SharedView, "_page_box.html", assigns %>
+
+<a href="#">
+  <%= if is_mobile?(@conn) do %>
+    <%= img_tag image_for_ad(%{image: "ad3"}), style: "width:100%" %>
+  <% else %>
+    <%= img_tag image_for_ad(%{image: "ad3"}), style: "width:100%" %>
+  <% end %>
+</a>

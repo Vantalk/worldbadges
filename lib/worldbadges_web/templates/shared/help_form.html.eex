@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="col" style="padding-top: 3vh">
+      <h3>Help form</h3>
+      <small>You can enquire information or assistance through the form below</small>
+      <br><br>
+      <%= form_for @changeset, shared_path(@conn, :create_case, back: @back), [id: "case_create"], fn f -> %>
+        <%= if @changeset.action do %>
+          <div class="alert alert-danger">
+            <p>Oops, something went wrong! Please check the errors below.</p>
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <%= select f, :type, ["Information inquiry": 12, "Account login": 13, "Legal matters": 14, "Other": 15], class: "form-control", prompt: "Select issue type", required: true %>
+          <%= error_tag f, :type %>
+        </div>
+
+        <div class="form-group">
+          <%= label f, :details, class: "control-label" %>
+          <%= textarea f, :details, class: "form-control", rows: 3, maxlength: 300, placeholder: "Write details", required: true %>
+          <%= error_tag f, :details %>
+        </div>
+
+        <button type="submit" name="button" class="btn main-bg">Submit case</button>
+        <%= link "Back", to: back_path(@conn, @back), class: "btn btn-light" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render "_footer.html" %>

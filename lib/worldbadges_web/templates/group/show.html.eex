@@ -1,0 +1,18 @@
+<h2>Show Ad</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @ad.title %>
+  </li>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @ad.content %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: ad_path(@conn, :edit, @ad) %></span>
+<span><%= link "Back", to: ad_path(@conn, :index) %></span>

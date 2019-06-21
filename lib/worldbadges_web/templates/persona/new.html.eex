@@ -1,0 +1,51 @@
+<div class="container-fluid">
+  <%= render "_privacy.html" %>
+
+  <div class="col-sm-5 col-sm-offset-1">
+    <h1 style="margin-top: 10vh;">Create account</h1>
+    <%= form_for @changeset, user_path(@conn, :create), [id: "form", class: "form-horizontal"], fn f -> %>
+    <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>There are some errors.</p>
+    </div>
+    <% end %>
+
+    <div class="form-group">
+      <label class="control-label col-sm-4" for="email">Displayed name:</label>
+      <div class="col-sm-8">
+        <%= text_input f, :name, placeholder: "Nick or name", class: "form-control" %>
+        <%= error_tag f, :name %>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-4" for="email">Login Key:</label>
+      <div class="col-sm-8">
+        <%= text_input f, :key, placeholder: "Keyword or sequence", class: "form-control" %>
+        <%= error_tag f, :key %>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-4" for="email">Login Password:</label>
+      <div class="col-sm-8">
+        <%= password_input f, :password, placeholder: "Password", class: "form-control" %>
+        <%= error_tag f, :password %>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= checkbox f, :licence %>
+      <span>I agree to the terms and conditions and I understand that this website uses cookies for identification and preferences. <%#= link "Terms and conditions", to: "/", target: "_blank" %></span>
+    </div>
+
+    <div class="btn-group btn-group-justified">
+      <a onclick="document.getElementById('form').submit()" class="btn btn-log-in"><i class="fa fa-id-badge"></i> Create account</a>
+      <a href="/session/new" class="btn btn-log-in"><i class="fa fa-angle-double-right"></i> Log in</a>
+      <a href="/help" class="btn btn-log-in"><i class="fa fa-info"></i> Help</a>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  document.getElementById("user_licence").checked = false;
+
+</script>

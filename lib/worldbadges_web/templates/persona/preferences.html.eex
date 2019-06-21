@@ -1,0 +1,249 @@
+<script type="text/javascript">
+  var badges = badges();
+  var main_color = '<%= @color %>';
+
+  // badges
+  function badges() {
+    var ids_string = '<%= @badge_ids_string %>'
+
+    if (ids_string == '') { return [] }
+    else { return ids_string.split(",") }
+  }
+
+  function toggleBadge(object) {
+    badges = addRemoveValue(badges, object.getAttribute('data-id'));
+
+    object.classList.toggle("main-bg");
+    toggleBadgeBackground(object);
+    document.getElementById('preferences_badges').value = badges;
+  }
+
+  function addRemoveValue(array, value) {
+    var new_array = []
+    var skipped = 0;
+
+    for (var i = 0; i <= array.length; i++) {
+      if (array[i] == value) {
+        value = "";
+        skipped = 1;
+      } else if (i == array.length && value != "") {
+        new_array[i - skipped] = value;
+      } else if (i != array.length) {
+        new_array[i - skipped] = array[i]
+      }
+    }
+
+    return new_array;
+  }
+
+  function toggleBadgeBackground(object) {
+    if (object.style.backgroundColor == "") {object.style.backgroundColor = main_color}
+    else { object.style.backgroundColor = "" }
+  }
+
+  //color
+  function changeColorStyle(object) {
+    var content = document.getElementById('sign-up-preferences');
+
+    main_color = object.style.backgroundColor;
+    document.getElementById('preferences_color').value = main_color; //for form
+    document.getElementById('top-bar').style.backgroundColor = main_color; //top-bar
+    document.body.style.background = backgroundGradient();
+    changeElementsColor(content);
+  }
+
+  function backgroundGradient() {
+    console.log(main_color);
+    switch (main_color) {
+
+      case "rgb(255, 174, 188)": return 'linear-gradient(#ffdae1, white)';
+      case "purple": return 'linear-gradient(#d1c5d0, white)';
+      case "brown": return 'linear-gradient(#d1c5c5, white)';
+      case "orange": return 'linear-gradient(#ddd4c6, white)';
+      case "green": return 'linear-gradient(#d1c5c5, white)';
+      case "steelblue": return 'linear-gradient(#accce7, white)';
+      case "black": return 'linear-gradient(#717171, white)';
+      default:
+    }
+  }
+
+  function changeElementsColor(content) {
+    var titles = content.getElementsByTagName("h4");
+    var badge_images = content.getElementsByClassName("main-bg");
+
+    for (var i = 0; i < titles.length; i++) {
+      titles[i].style.color = main_color;
+    }
+    for (var i = 0; i < badge_images.length; i++) {
+      badge_images[i].style.backgroundColor = main_color;
+    }
+  }
+
+  //desc
+  function toggleDesc(object, property) {
+    var description = document.getElementById('desc-'+property)
+    var options = document.getElementById('opt-'+property)
+
+    description.hidden = !description.hidden; options.hidden = !options.hidden;
+    toggleText(object);
+  }
+
+  function toggleText(object) {
+    if (object.text == "< Show options") {
+      object.innerHTML = "Learn more... <i class='fa fa-question-circle' aria-hidden='true'>"
+    } else {
+      object.text = "< Show options"
+    }
+  }
+</script>
+
+<%= form_for @conn, persona_path(@conn, :save_preferences), [as: :preferences, id: "sign-up-preferences"], fn f -> %>
+  <%= hidden_input f, :badges, value: @badge_ids_string %>
+  <%= hidden_input f, :color, value: @color %>
+
+  <div class="row">
+    <h3>Create your own experience</h3><br>
+    <div class="col-sm-4">
+      <h4 class="main-color"><i class="fa fa-shield" aria-hidden="true"></i> Interests</h4>
+      <span>
+        Choose your likes.
+        <div id="desc-interests" hidden>
+          Interests determine what activity and ads you will see. Depending on your privacy setting your interests are
+          discoverable so you can find and relate to people easier.
+        </div>
+        <a href="#" onclick="toggleDesc(this, 'interests')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+      </span>
+
+      <br><br>
+
+      <div id="opt-interests" class="row">
+        <div class="row">
+          <%= for badge <- @badges do %>
+            <div class="col-xs-3">
+              <% selected = selected?(badge, @badge_ids) %>
+              <%= badge.name %>
+              <%= img_tag image_for_badge(badge),
+                class: "#{if selected, do: "main-bg"}",
+                style: "max-height: 60px; background: #{if selected, do: @color}",
+                onclick: 'toggleBadge(this)',
+                alt: badge.name,
+                data: [id: badge.id] %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4" style="border-left: 1px solid black; border-right: 1px solid black">
+      <h4 class="main-color"><i class="fa fa-eye" aria-hidden="true"></i> Privacy</h4>
+      <span>
+        Who can see your activity and interests?
+        <div id="desc-privacy" hidden>
+          While <b>open</b> and <b>trusted</b> makes your activity and interests discoverable by everyone or your closest connections,
+          <b>separated</b> only displays common interests and their related activity. Regardless of these options, you can still decide who
+          sees the activity on your user page on a per post basis.
+        </div>
+        <a href="#" onclick="toggleDesc(this, 'privacy')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+      </span>
+
+      <br><br>
+
+      <div id="opt-privacy">
+        <%= radio_button(f, :show, "open", checked: @show == "open") %> Open <i>- anyone</i> <br>
+        <%= radio_button(f, :show, "trusted", checked: @show == "trusted") %> Trusted <i>- those with a common interest or your contacts</i><br>
+        <%= radio_button(f, :show, "separated", checked: @show == "separated") %> Separated <i>- only those with common interests</i><br>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <h4 class="main-color"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Ads</h4>
+      <span>
+        We practice ethical advertising.
+        <div id="desc-ads" hidden>
+          This means we try to focus on quality when displaying ads, also keeping them in the area of your selected interests or
+          civic domain. No personal information about you is passed to advertisers.
+          We let you decide how generous you wish to be if you want to increase your support.
+        </div>
+      <a href="#" onclick="toggleDesc(this, 'ads')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+      </span>
+
+      <br><br>
+
+      <div id="opt-ads">
+        <%= radio_button(f, :ad, "survival", checked: @ad == "survival") %> Survival <i>- we only show one ad. Bare minimum to survive as a site</i><br>
+        <%= radio_button(f, :ad, "generous", checked: @ad == "generous") %> Generous <i>- we show a max of 2 ads</i><br>
+        <%= radio_button(f, :ad, "supporter", checked: @ad == "supporter") %> Supporter <i>- location tracking for showing local businesses</i><br>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <h4 class="main-color"><i class="fa fa-tint" aria-hidden="true"></i> Color</h4>
+      <span>
+        Pick a color style.
+        <div id="desc-color" hidden>
+          This will change the top bar and the background color.
+        </div>
+      <a href="#" onclick="toggleDesc(this, 'color')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+      </span>
+
+      <br><br>
+
+      <div id="opt-color">
+        <div class="color-pick" style="background: rgb(255, 174, 188);" onclick="changeColorStyle(this);"></div>
+        <div class="color-pick" style="background: purple;" onclick="changeColorStyle(this);"></div>
+        <div class="color-pick" style="background: brown;" onclick="changeColorStyle(this);"></div>
+        <div class="color-pick" style="background: orange;" onclick="changeColorStyle(this);"></div>
+        <div class="color-pick" style="background: green;" onclick="changeColorStyle(this);"></div>
+        <div class="color-pick" style="background: steelblue;" onclick="changeColorStyle(this);"></div>
+        <div class="color-pick" style="background: black;" onclick="changeColorStyle(this);"></div>
+        <div class="color-pick" style="background: white;" onclick="changeColorStyle(this);"></div>
+      </div>
+
+    </div>
+
+    <div class="col-sm-4" style="border-left: 1px solid black; border-right: 1px solid black">
+      <h4 class="main-color"><i class="fa fa-eye" aria-hidden="true"></i> View</h4>
+      <span>
+        What do you want to see?
+        <div id="desc-view" hidden>
+          This provides the posibility to focus solely on your interests. If you select the <b>separated</b> option
+          you will have options to exlicitly find and view other interest groups.
+        </div>
+        <a href="#" onclick="toggleDesc(this, 'view')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+      </span>
+
+      <br><br>
+
+      <div id="opt-view">
+        <%= radio_button(f, :see, "open", checked: @see == "open") %> Open <i>- all contact and interest articles</i> <br>
+        <%= radio_button(f, :see, "separated", checked: @see == "separated") %> Separated <i>- only see activity on common interests</i><br>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <h4 class="main-color"><i class="fa fa-object-ungroup" aria-hidden="true"></i> Layout</h4>
+
+      <span>
+        How to display things?
+        <div id="desc-layout" hidden>
+          This reffers to the main feed page.
+          <b>Grouped</b> articles can be collapsed into their group and are further sorted by recent date, while
+          <b>timewise</b> only imposes a sortation by most recent.
+        </div>
+        <a href="#" onclick="toggleDesc(this, 'layout')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+      </span>
+
+      <br><br>
+      <div id="opt-layout">
+        <%= radio_button(f, :layout, "grouped", checked: @lyout == "grouped") %> Grouped <i>- group articles by interest</i><br>
+        <%= radio_button(f, :layout, "timewise", checked: @lyout == "timewise") %> Timewise <i>- show articles sorted by most recent</i><br>
+      </div>
+    </div>
+  </div>
+
+  <div id="buttons">
+    <button class="btn btn-primary" type="submit" name="button">Save</button>
+  </div>
+<% end %>

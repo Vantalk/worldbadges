@@ -1,0 +1,165 @@
+<script type="text/javascript">
+  // function savedMessage(object) {
+  //   object.innerText = "Saved!"
+  //   object.className = "btn btn-sm btn-default"
+  //
+  //   setTimeout(function() {
+  //     object.innerText = "Save"
+  //     object.className = "btn btn-sm btn-success"
+  //   }, 2000);
+  // }
+  //
+  // function errorMessage(object) {
+  //   object.innerText = "Errored!"
+  //   object.className = "btn btn-sm btn-danger"
+  //
+  //   setTimeout(function() {
+  //     object.innerText = "Save"
+  //     object.className = "btn btn-sm btn-success"
+  //   }, 2000);
+  // }
+
+  function reloadPage(section) { window.location = '/'+section+'/new?reload' }
+
+  function showSection(section) { window.location = '/'+section+'/new' }
+
+  function toggleDesc(object, property) {
+    if (object.text == " Learn more") {
+      object.text = "< Show options";
+      document.getElementById('list-text').innerHTML = "<i class='fa fa-list' aria-hidden='true'></i> List all"
+
+      document.getElementById('list-'+property).innerHTML = "";
+      document.getElementById('desc-'+property).hidden = false;
+      document.getElementById('opt-'+property).hidden = true;
+    } else {
+      object.innerHTML = "<i class='fa fa-info-circle' aria-hidden='true'></i> Learn more"
+
+      document.getElementById('desc-'+property).hidden = true;
+      document.getElementById('opt-'+property).hidden = false;
+    }
+  }
+
+  function toggleList(object, property) {
+    if (object.text == " List all") {
+      get_records(object, property);
+    } else {
+      showSection(property);
+      // object.innerHTML = "<i class='fa fa-list' aria-hidden='true'></i> List all"
+      //
+      // // reset()
+      // document.getElementById('list-'+property).innerHTML = "";
+      // document.getElementById('desc-'+property).classList.add("hidden");
+      // document.getElementById('opt-'+property).classList.remove("hidden");
+    }
+  }
+
+  function addRemoveValue(array, value) {
+    var new_array = []
+    var skipped = 0;
+
+    for (var i = 0; i <= array.length; i++) {
+      if (array[i] == value) {
+        value = "";
+        skipped = 1;
+      } else if (i == array.length && value != "") {
+        new_array[i - skipped] = value;
+      } else if (i != array.length) {
+        new_array[i - skipped] = array[i]
+      }
+    }
+
+    return new_array;
+  }
+
+  function ajaxFormSubmit(form_id, section) {
+    var form = document.getElementById(form_id)
+    var data = new FormData(form)
+    var request = new XMLHttpRequest()
+
+    request.onreadystatechange = function(){
+      if (request.readyState === 4) {
+        var response = request.response;
+        if (request.status === 200 && request.statusText === 'OK') {
+          if (section == "badge_step_2") { badgeNextStep(response) }
+          else { reloadPage(section) }
+        } else if (request.status === 400) {
+          // errorMessage(object)
+          alert(response)
+        }
+      }
+    }
+
+    request.open(form.method, form.action)
+    request.send(data)
+  }
+
+  function ajaxRequest(action, url, object, type) {
+    var request = new XMLHttpRequest()
+
+    request.onreadystatechange = function(){
+      if (request.readyState === 4) {
+        var response = request.response;
+        if (request.status === 200 && request.statusText === 'OK') {
+          if (action == "list") { listObjects(object, type, response) }
+          else if (action == 'remove_persona_from_page') { object.parentElement.remove() }
+          else if (action == 'search_non_members') {document.getElementById('persona-list').innerHTML = response;}
+          else if (action == 'invite') {object.innerText = 'Invited'; object.className = 'btn btn-sm btn-success';}
+          else if (action == 'accept_join') {object.parentElement.innerHTML = "<button type='button' class='btn btn-sm btn-success'>Accepted</button>";}
+          else if (action == 'reject_join') {object.parentElement.innerHTML = "<button type='button' class='btn btn-sm main-bg'>Rejected</button>";}
+          else if (['ban_join', 'reject_join', 'revoke_invitation'].indexOf(action) > -1 ) {object.parentElement.remove()}
+        } else if (request.status === 400) {
+          console.log(request);
+          alert(response)
+          // errorMessage(object)
+        }
+      }
+    }
+
+    request.open("GET", url);
+    request.send();
+  }
+
+  function get_records(object, type) {
+    var url = "/get_list/"+type;
+    ajaxRequest("list", url, object, type);
+  }
+
+  function show(object) {
+    var type = object.parentElement.dataset.type;
+    var name = parse_name(object.parentElement.dataset.name);
+    window.location = "/"+type+"/"+name;
+  }
+
+  function edit(object) {
+    var type = object.parentElement.dataset.type;
+    var name = parse_name(object.parentElement.dataset.name);
+    window.location = "/"+type+"/"+name+"/edit";
+  }
+
+  function remove(object) {
+    var parent = object.parentElement;
+    var name = parent.dataset.name;
+
+    if (confirm('Confirm remove '+name)) {
+      var type = parent.dataset.type;
+      // var name = parse_name(parent.dataset.name);
+      ajaxRequest("remove", "/delete/"+type+"/"+name, parent);
+      parent.remove()
+    }
+  }
+
+  function parse_name(name) {
+    return name.trim().replace(/\s/g, '_')
+  }
+
+  function listObjects(object, property, response) {
+    if (response == "") response = "<i>No items to display</i>"
+    object.innerHTML = "<i class='fa fa-pencil' aria-hidden='true'></i> Create new";
+    document.getElementById('learn-text').innerHTML = "<i class='fa fa-info-circle' aria-hidden='true'></i> Learn more"
+
+    document.getElementById('list-'+property).innerHTML = response;
+    document.getElementById('desc-'+property).hidden = true;
+    document.getElementById('opt-'+property).hidden = true;
+  }
+
+</script>

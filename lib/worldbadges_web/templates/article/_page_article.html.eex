@@ -1,0 +1,40 @@
+<div class="card" id="article_<%= @article.id %>">
+  <!-- <div class="card-header"></div> -->
+
+  <div class="card-body" style="padding: 0.6rem 0.3rem 0.3rem 1.25rem">
+    <div>
+      <%= link to: link_for_persona(@persona), class: "btn main-bg name-tag-picture" do %>
+        <%= img_tag image_for_persona(@persona), class: "small-badge", style: "width: 1.6em; height: 1.6em" %>
+        <span data-chat="<%= @persona.id %>" data-pid="<%= @current_persona.id %>"><%= @persona.name %></span>
+      <% end %>
+      <small style="color: grey"> - <%= Timex.from_now(@article.inserted_at) %></small>
+
+      <%#= if page = @article.page do %>
+        <div class="right main-color" style="padding-right: 10px" title="<%#= page.name %>" data-recognize="article_<%= @article.id %>"]>
+          <span id="recognitions_<%= @article.id %>" style="font-size: x-small; position: relative; bottom: -5px; right: -6px"><%= if @article.recognitions != 0, do: @article.recognitions %></span>
+          <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        </div>
+      <%# end %>
+
+    </div>
+
+    <div id="article_content_<%= @article.id %>" class="article_content">
+      <%= WorldbadgesWeb.SharedView.parse_content(@article.content) %>
+      <%= render WorldbadgesWeb.ArticleView, "_article_data.html", article: @article %>
+    </div>
+    <div class="right">
+
+    </div>
+    <div class="dropdown" style="float: right; padding-right: 10px">
+      <button id='<%= "aopt_#{@article.id}" %>' type="button" class="btn article-circle-dropdown" data-toggle="dropdown">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </button>
+      <div data-type='article' data-id='<%= @article.id %>' class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" data-report href="#">Report</a>
+        <a class="dropdown-item" hidden data-edit href="#">Edit</a>
+        <a class="dropdown-item" hidden data-delete href="#">Delete</a>
+      </div>
+    </div>
+
+  </div>
+</div>

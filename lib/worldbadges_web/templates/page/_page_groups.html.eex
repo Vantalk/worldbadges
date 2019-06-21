@@ -1,0 +1,15 @@
+<%= for page <- @pages do %>
+  <div class="main-border page-group-border">
+    <% name = parse_name(page.name) %>
+    <%= link to: link_for_page(page), class: "link truncated-string" do %>
+      <%= img_tag image_for_page(page), class: "small-image" %>
+      <%= page.name %>
+    <% end %>
+
+    <a class="btn btn-sm" href="#" onclick="pageBoxToggle(this)" data-active="false" id="btn_<%= name %>">
+      <i class="fa fa-cube"></i>
+    </a>
+  </div>
+  <%# TODO: try to use bootstrap accordion %>
+  <div id="contacts_<%= name %>" class="collapse" style="margin-left: 12px; overflow:auto; max-height:6rem;"></div>
+<% end %>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <% [color, bg, connected] = data(@current_persona) %>
+    <script type="text/javascript">
+      window.guardian_token = '<%= @conn.private[:guardian_default_jwt] %>';
+      window.personal_page  = '<%= List.first(@conn.path_info) == "persona" %>'
+      window.page_name = '<%= @conn.path_params["name"] %>';
+      window.opened_article = '<%= if id = @conn.path_params["article_id"], do: "article_#{id}" %>';
+      window.user_id = '<%= if @current_persona, do: @current_persona.user_id %>';
+      window.pid = '<%= if @current_persona, do: @current_persona.id %>';
+      window.connected_personas = <%= connected %>;
+      window.events_panel = '<%= @conn.path_params["article_id"] %>' == '' ? true : false;
+      window.openedChatPids = [];
+      window.missedChatPids = [];
+    </script>
+
+    <title>Worldbadges</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body style="overflow: hidden">
+    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+    <style media="screen">
+      .main-bg { background: <%= color %>; color: white}
+      .main-color { color: <%= color %>; }
+      .main-border { border-color: <%= color %>;}
+      .btn-link, .link, a { color: <%= color %>; }
+      /* a:hover { color: <%= color %>; } */
+
+      body { background: linear-gradient(<%= bg %>, white); }
+    </style>
+
+    <main role="main">
+      <%= render WorldbadgesWeb.SharedView, "notification_box.html" %>
+      <!-- TOP -->
+      <div class="container-fluid">
+        <%= if WorldbadgesWeb.Shared.is_mobile?(@conn) do %>
+          <%= render WorldbadgesWeb.SharedView, "_write_box_mobile.html", conn: @conn, current_persona: @current_persona %>
+          <%= render "_top_bar_mobile.html", assigns %>
+        <% else %>
+            <%= render "_top_bar_desktop.html", conn: @conn %>
+        <% end %>
+      </div>
+
+      <%= render @view_module, @view_template, assigns %>
+
+      <div id="chat-boxes"></div>
+    </main>
+
+
+    <%= render WorldbadgesWeb.SharedView, "_events_box.html", conn: @conn, current_persona: @current_persona, l_page?: true %>
+    <%= render WorldbadgesWeb.SharedView, "_report_modal.html", conn: @conn %>
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

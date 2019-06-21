@@ -1,0 +1,5 @@
+<h2>Edit Chat</h2>
+
+<%= render "form.html", Map.put(assigns, :action, chat_path(@conn, :update, @chat)) %>
+
+<span><%= link "Back", to: chat_path(@conn, :index) %></span>

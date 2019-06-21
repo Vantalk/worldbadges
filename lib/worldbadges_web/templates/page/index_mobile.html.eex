@@ -1,0 +1,46 @@
+
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- LEFT -->
+    <div id="left" class="col-sm-4" style="padding: 0;">
+      <div class="border">
+        <a href="/persona/change_persona" title="Switch through personas" style="position: absolute; background: whitesmoke; left: 48%; z-index: 1; padding: 0 1px"><i class="fa fa-user" aria-hidden="true"></i></a>
+        <div class="row">
+          <div class="col" style="padding-right: 0">
+            <%= link to: link_for_persona(@current_persona) do %>
+              <%= img_tag image_for_persona(@current_persona), class: "border", style: "width: 100%; height: 100%" %>
+            <% end %>
+          </div>
+          <div class="col" style="padding-left: 0">
+            <%= link to: "/" do %>
+              <%= img_tag "/images/logo-badge.png", class: "border", style: "width: 100%; height: 100%" %>
+            <% end %>
+          </div>
+        </div>
+
+        <div id="buttons_bar2">
+          <%= render WorldbadgesWeb.SharedView, "_buttons_bar_mobile.html", conn: @conn, current_persona: @current_persona %>
+        </div>
+      </div>
+
+      <%= render "_list_of_contacts.html", conn: @conn, pages: @pages %>
+      <span>
+        <small style="color: grey"><%= link "v0.8a", to: "/news" %></small>
+      </span>
+    </div>
+
+
+    <!-- RIGHT -->
+    <!-- MAIN AND ADS -->
+    <div id="content" class="col-sm-8 content" data-offset="0" data-scroll-forward="true" onscroll="loadMore(this, 'index_articles')">
+      <!-- can put ad here -->
+      <div id="content-wrap">
+        <%= for article <- @articles do %>
+          <%= render WorldbadgesWeb.ArticleView, "_article.html", conn: @conn, article: article, current_persona: @current_persona %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+</div>

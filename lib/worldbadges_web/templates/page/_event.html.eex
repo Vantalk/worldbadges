@@ -1,0 +1,32 @@
+<div class="notification">
+  <%= if @event.name do %>
+  <div class="btn main-bg name-tag-picture">
+    <%= img_tag image_for_persona(@event), class: "small-badge", style: "width: 1.6em; height: 1.6em" %>
+    <span><%= @event.name %></span>
+  </div>
+    <!-- <%= link to: @event.link, class: "" do %>
+      <%= img_tag image_for_persona(@event), class: "small-badge", style: "width: 1.6em; height: 1.6em" %>
+      <span data-chat="<%= name_for_event_persona(@event) %>"><%= @event.name %></span>
+    <% end %> -->
+
+    <!-- <%= link to: @event.link do %>
+      <%= img_tag image_for_persona(@event), class: "small-image" %>
+    <% end %>
+    <button  type="button" class="btn btn-sm main-bg"><%= @event.name %></button> -->
+  <% end %>
+
+  <!-- TODO: action - time -->
+  <%= link @event.description, to: @event.link, class: "notify-link" %>
+  <small style="color: grey"> - <%= Timex.from_now(@event.time) %></small>
+  <%= if @event.page_name do %>
+    <%= link to: link_for_event_page(@event) do %>
+      <%= img_tag image_for_event_page(@event), class: "small-image right", title: @event.page_name %>
+    <% end %>
+  <% end %>
+  <br>
+  <%= if @event.content do %>
+    <a href="#" class="truncated-string black" onclick="this.classList.toggle('truncated-string')">
+      <%= @event.content %>
+    </a>
+  <% end %>
+</div>

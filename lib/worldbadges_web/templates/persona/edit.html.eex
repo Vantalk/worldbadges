@@ -1,0 +1,459 @@
+<script type="text/javascript">
+  var badges = badges();
+  var main_color = '<%= @color %>';
+  var collapsed = 'interests';
+
+  // badges
+  function badges() {
+    var ids_string = '<%= @badge_ids_string %>'
+
+    if (ids_string == '') { return [] }
+    else { return ids_string.split(",") }
+  }
+
+  function toggleBadge(object) {
+    badges = addRemoveValue(badges, object.getAttribute('data-id'));
+
+    object.classList.toggle("main-bg");
+    toggleBadgeBackground(object);
+    document.getElementById('preferences_badge_ids_string').value = badges;
+  }
+
+  function addRemoveValue(array, value) {
+    var new_array = []
+    var skipped = 0;
+
+    for (var i = 0; i <= array.length; i++) {
+      if (array[i] == value) {
+        value = "";
+        skipped = 1;
+      } else if (i == array.length && value != "") {
+        new_array[i - skipped] = value;
+      } else if (i != array.length) {
+        new_array[i - skipped] = array[i]
+      }
+    }
+
+    return new_array;
+  }
+
+  function toggleBadgeBackground(object) {
+    if (object.style.backgroundColor == "") {object.style.backgroundColor = main_color}
+    else { object.style.backgroundColor = "" }
+  }
+
+  //color
+  function changeColorStyle(object) {
+    main_color = object.style.backgroundColor;
+    document.getElementById('preferences_color').value = main_color; //for form
+    document.getElementById('top-bar').style.backgroundColor = main_color; //top-bar
+    document.body.style.background = backgroundGradient();
+    changeElementsColor();
+  }
+
+  function backgroundGradient() {
+    switch (main_color) {
+
+      case "rgb(255, 174, 188)": return 'linear-gradient(#ffdae1, white)';
+      case "purple": return 'linear-gradient(#d1c5d0, white)';
+      case "brown": return 'linear-gradient(#d1c5c5, white)';
+      case "orange": return 'linear-gradient(#ddd4c6, white)';
+      case "green": return 'linear-gradient(#d1c5c5, white)';
+      case "steelblue": return 'linear-gradient(#accce7, white)';
+      case "black": return 'linear-gradient(#717171, white)';
+      default:
+    }
+  }
+
+  function changeElementsColor() {
+    var badge_images = document.getElementsByClassName("main-bg");
+    var links = document.getElementsByClassName("link");
+
+    for (var i = 0; i < badge_images.length; i++) {
+      badge_images[i].style.backgroundColor = main_color;
+    }
+    for (var i = 0; i < links.length; i++) {
+      links[i].style.color = main_color;
+    }
+  }
+
+  //desc
+  function toggleDesc(object, property) {
+    var description = document.getElementById('desc-'+property)
+    // var options = document.getElementById('opt-'+property)
+
+    description.hidden = !description.hidden; //options.hidden = !options.hidden;
+    // toggleText(object);
+  }
+
+  function toggleText(object) {
+    if (object.text == "") {
+      object.innerHTML = "Learn more... <i class='fa fa-question-circle' aria-hidden='true'>"
+    } else {
+      object.innerHTML = "<i class='fa fa-arrow-circle-left' aria-hidden='true'></i>"
+    }
+  }
+
+  function showOpts(property) {
+    document.getElementById(collapsed).className = 'collapse';
+    collapsed = property;
+  }
+
+  //image
+  // VARIABLES
+  // var topOffset  = document.getElementById('top-bar').offsetHeight;
+  var save_canvas = false;
+  var updatePosition = false;
+  var xOffset = null;
+  var yOffset = null;
+  // var imageUrl = '/images/profiles/test.jpg';
+  var imageUrl = '<%= image_for_persona(@current_persona) %>';
+  var rotation = 0;
+
+  var maxSize = 150;
+  // img.src = 'http://1dut.com/wp-content/uploads/2011/09/30-beautiful-phoenix-artworks3dabstractline-drawings-and-oil-paintigs-1dut.com-11.jpg';
+  // img.src = 'http://images2.fanpop.com/image/photos/9200000/Water-Dragon-water-dragons-9204975-113-120.jpg';
+
+  function reset() {
+    // 15 is for padding
+    var list = document.getElementById('persona-list')
+    xOffset = list.clientWidth;
+    yOffset = document.getElementById('top-bar').clientHeight //+ 15
+
+    draw()
+    // if (window.location.search.substr(1) == "reload") {
+    //   toggleList(document.getElementById('list-text'), "badge");
+    //   popMessage("Succesfully updated", "success")
+    // } else if (window.location.href.split('/').pop() == "edit") {badgeNextStep(imageUrl)}
+  }
+
+  // SET FUNCTIONS
+  function setSize(value) {
+    save_canvas = true;
+    maxSize = Number(value)
+    draw();
+  }
+
+  // DRAWING FUNCTIONS
+  function squareShape(ctx, xoff, yoff) {
+    ctx.beginPath();
+    ctx.moveTo(0 + xoff, 0  + xoff);
+    ctx.lineTo(200  + xoff, 0  + xoff);
+    ctx.lineTo(200  + xoff, 200 + xoff);
+    ctx.lineTo(0 + xoff, 200 + xoff);
+    ctx.lineTo(0 + xoff, 0 + xoff);
+  }
+
+  function moveImage(e) {
+    if (updatePosition) draw(e)
+  }
+
+  function pictureSize(width, height) {
+    if (width < maxSize && height < maxSize) {return [width, height]}
+
+    var ratio; var diff;
+    if (width > height) {
+      ratio = width/height;
+      diff = width - maxSize;
+      width = width - diff;
+      height = height - (diff/ratio);
+    } else {
+      ratio = height/width;
+      diff = height - maxSize;
+      height = height - diff;
+      width = width - (diff/ratio);
+    }
+
+    return [width, height]
+  }
+
+  function draw(e = null) {
+    var canvas = document.getElementById('persona-canvas');
+    var ctx = canvas.getContext('2d');
+
+    canvas.width = canvas.width; //reset canvas
+
+    squareShape(ctx, 0, 0);
+    ctx.clip();
+    var img = new Image();
+    img.crossOrigin = "anonymous";
+
+    img.onload = function() {
+      var size = pictureSize(img.width, img.height);
+
+      if (updatePosition) {
+        ctx.drawImage(img, e.x - xOffset - size[0]/2, e.y - yOffset - size[1]/2, size[0], size[1]);
+      } else {
+        var xPosition = (200 - size[0])/2
+        var yPosition = (200 - size[1])/2
+        ctx.drawImage(img, xPosition, yPosition, size[0], size[1]);
+      }
+
+      // squareShape(ctx, 0, 0);
+      // ctx.stroke();
+    };
+    img.src = imageUrl;
+  }
+
+  function saveCanvas() {
+    if (imageUrl && save_canvas) {
+      var url = document.getElementById('persona-canvas').toDataURL('image/png');
+      $("#preferences_canvascontent").val(url);
+    }
+    if (validated()) ajaxFormSubmit('preferences'); // document.getElementById('preferences').submit();
+  }
+
+  function validated() {
+    if (document.getElementById('preferences_name').value.trim() == "") {
+      alert("You must specify a name for this persona"); return false
+    } else if (document.getElementById('preferences_badge_ids_string').value.trim() == "") {
+      alert("You must select at least one interest"); return false
+    } else {return true}
+  }
+
+  function ajaxFormSubmit(form_id) {
+    var form = document.getElementById(form_id)
+    var data = new FormData(form)
+    var request = new XMLHttpRequest()
+
+    request.onreadystatechange = function(){
+      if (request.readyState === 4) {
+        var response = request.response;
+        if (request.status === 200 && request.statusText === 'OK') {
+          location.href = '/';
+        } else if (request.status === 400) {
+          // errorMessage(object)
+          alert(response)
+        }
+      }
+    }
+
+    request.open(form.method, form.action)
+    request.send(data)
+  }
+
+  function toggleMove() {
+    updatePosition = !updatePosition
+  }
+
+  function previewFile(object) {
+    var file    = object.files[0];
+    var reader  = new FileReader();
+
+    reader.addEventListener("load", function () {
+      imageUrl = reader.result;
+      save_canvas = false;
+      draw()
+    }, false);
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+  document.onmousemove = moveImage;
+</script>
+
+<style media="screen">
+  .main-bg {background-color: <%= @color %>}
+</style>
+
+<%= form_for @conn, persona_path(@conn, :save_preferences), [multipart: true, as: :preferences, id: "preferences"], fn f -> %>
+<%= hidden_input f, :badge_ids_string, value: @badge_ids_string %>
+<%= hidden_input f, :color, value: @color %>
+<%= hidden_input f, :canvascontent %>
+<div class="row" style="min-height: 100vh">
+  <div class="col-sm-8 order-sm-2 mx-auto">
+    <div class="card" style="background: transparent;">
+      <div class="card-body">
+        <div class="text-center">
+          <h4 class="card-title">Customize your experience</h4>
+          <div style="display: grid; grid-template-columns: auto auto auto;">
+            <button onclick="showOpts('interests')" type="button" data-toggle="collapse" data-target="#interests" class="btn btn-sm btn-preferences main-bg">
+              <i class="fa fa-shield" aria-hidden="true"></i> Interests
+            </button>
+            <button onclick="showOpts('color')" type="button" data-toggle="collapse" data-target="#color" class="btn btn-sm btn-preferences main-bg">
+              <i class="fa fa-tint" aria-hidden="true"></i> Color
+            </button>
+            <button onclick="showOpts('layout')" type="button" data-toggle="collapse" data-target="#layout" class="btn btn-sm btn-preferences main-bg">
+              <i class="fa fa-object-ungroup" aria-hidden="true"></i> Layout
+            </button>
+            <button onclick="showOpts('privacy')" type="button" data-toggle="collapse" data-target="#privacy" class="btn btn-sm btn-preferences main-bg">
+              <i class="fa fa-eye" aria-hidden="true"></i> Privacy
+            </button>
+            <button onclick="showOpts('view')" type="button" data-toggle="collapse" data-target="#view" class="btn btn-sm btn-preferences main-bg">
+              <i class="fa fa-eye" aria-hidden="true"></i> View
+            </button>
+            <button onclick="showOpts('ads')" type="button" data-toggle="collapse" data-target="#ads" class="btn btn-sm btn-preferences main-bg">
+              <i class="fa fa-newspaper-o" aria-hidden="true"></i> Ads
+            </button>
+          </div>
+
+        </div>
+
+
+        <br><br>
+
+        <div id="interests" class="collapse show">
+          <span>
+            Choose your likes. <a href="#" class="link" onclick="toggleDesc(this, 'interests')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+            <div id="desc-interests" hidden>
+              Choosing interests helps focus your experience on what you want to see and meet people with same preferences.
+              This is further expanded by privacy and view settings. Ads are also displayed based on these general selections
+              to avoid irelevant advertising.
+            </div>
+          </span>
+
+          <br><br>
+
+          <div class="row">
+            <%= for badge_list <- Enum.chunk_every(@badges, 5) do %>
+              <div class="col-sm">
+                <%= for badge <- badge_list do %>
+                  <% selected = selected?(badge, @badge_ids) %>
+                  <div class="interests grow">
+                    <%= img_tag image_for_badge(badge),
+                    class: "#{if selected, do: "main-bg"}  xs-img",
+                    style: "background: #{if selected, do: @color}",
+                    onclick: 'toggleBadge(this)',
+                    alt: badge.name,
+                    data: [id: badge.id] %>
+                    <%= badge.name %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <div id="privacy" class="collapse">
+          <span>
+            Who can see your activity and interests? <a href="#" class="link" onclick="toggleDesc(this, 'privacy')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+            <div id="desc-privacy" hidden>
+              While <b>open</b> and <b>trusted</b> makes your activity and interests discoverable by everyone or your closest connections,
+              <b>separated</b> only displays common interests and their related activity. Regardless of these options, you can still decide who
+              sees the activity on your user page on a per post basis.
+            </div>
+
+          </span>
+          <br>
+
+          <%= radio_button(f, :show, "open", checked: @show == "open") %> Open <i>- anyone</i> <br>
+          <%= radio_button(f, :show, "trusted", checked: @show == "trusted") %> Trusted <i>- those with a common interest or your contacts</i><br>
+          <%= radio_button(f, :show, "separated", checked: @show == "separated") %> Separated <i>- only those with common interests</i><br>
+        </div>
+
+        <div id="ads" class="collapse">
+          <span>
+            We practice ethical advertising. <a href="#" class="link" onclick="toggleDesc(this, 'ads')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+            <div id="desc-ads" hidden>
+              Ethical advertising means we try to focus on quality when displaying ads, also keeping them in the area of your selected interests or
+              civic domain. No personal information about you is passed to advertisers.
+              We let you decide how generous you wish to be if you want to increase your support.
+            </div>
+          </span>
+          <br>
+
+          <%= radio_button(f, :ad, "survival", checked: @ad == "survival") %> Survival <i>- we use only one space to show ads</i><br>
+          <%= radio_button(f, :ad, "generous", checked: @ad == "generous") %> Generous <i>- we use a maximum of two spaces to display ads</i><br>
+          <%#= radio_button(f, :ad, "supporter", checked: @ad == "supporter")  Supporter <i>- location tracking for showing local businesses</i><br> %>
+        </div>
+
+        <div id="color" class="collapse">
+          <span>
+            Pick a color style. <a href="#" class="link" onclick="toggleDesc(this, 'color')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+            <div id="desc-color" hidden>
+              This will change the top bar, background, link and button color.
+            </div>
+          </span>
+          <br>
+
+          <div class="color-pick" style="background: rgb(255, 174, 188);" onclick="changeColorStyle(this);"></div>
+          <div class="color-pick" style="background: purple;" onclick="changeColorStyle(this);"></div>
+          <div class="color-pick" style="background: brown;" onclick="changeColorStyle(this);"></div>
+          <div class="color-pick" style="background: orange;" onclick="changeColorStyle(this);"></div>
+          <div class="color-pick" style="background: green;" onclick="changeColorStyle(this);"></div>
+          <div class="color-pick" style="background: steelblue;" onclick="changeColorStyle(this);"></div>
+          <div class="color-pick" style="background: black;" onclick="changeColorStyle(this);"></div>
+          <!-- <div class="color-pick" style="background: white;" onclick="changeColorStyle(this);"></div> -->
+        </div>
+
+        <div id="view" class="collapse">
+          <span>
+            What do you want to see? <a href="#" class="link" onclick="toggleDesc(this, 'view')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+            <div id="desc-view" hidden>
+              This provides the posibility to focus solely on your interests. If you select the <b>separated</b> option
+              you will have options to exlicitly find and view other interest groups.
+            </div>
+          </span>
+          <br>
+
+          <%= radio_button(f, :see, "open", checked: @see == "open") %> Open <i>- all contact and interest articles</i> <br>
+          <%= radio_button(f, :see, "separated", checked: @see == "separated") %> Separated <i>- only see activity on common interests</i><br>
+        </div>
+
+        <div id="layout" class="collapse">
+          <span>
+            How to display things? <a href="#" class="link" onclick="toggleDesc(this, 'layout')">Learn more... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+            <div id="desc-layout" hidden>
+              This reffers to the main feed page.
+              <b>Grouped</b> articles can be collapsed into their group and are further sorted by recent date, while
+              <b>timewise</b> only imposes a sortation by most recent.
+            </div>
+          </span>
+          <br>
+
+          <%= radio_button(f, :layout, "timewise", checked: @lyout == "timewise") %> Timewise <i>- show articles sorted by most recent</i><br>
+          <%= radio_button(f, :layout, "grouped", checked: @lyout == "grouped") %> Grouped <i>- group articles by interest</i><br>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 order-sm-1">
+    <div style="display: flex">
+      <div id="persona-list">
+        <%= for persona <- @personas do %>
+          <%= link to: persona_path(@conn, :change_persona, persona) do %>
+            <%= img_tag image_for_persona(persona), class: "sm-img #{if @current_persona.id == persona.id, do: "border"}" %>
+          <% end %><br>
+        <% end %>
+        <%= for i when i != 0 <- 0..(3 - length(@personas)) do %>
+          <%= link to: persona_path(@conn, :create) do %>
+            <%= img_tag "/images/profiles/add.jpg", class: "sm-img" %>
+          <% end %><br>
+        <% end %>
+      </div>
+
+      <div>
+        <canvas id="persona-canvas" onclick="toggleMove()" width="200" height="200"></canvas>
+        <br>
+        <input type="range" style="width:200px;"
+        min="0" max="400" step="1" value="150"
+        onchange="setSize(this.value);" />
+      </div>
+    </div>
+
+    <br>
+    <div>
+      <div>
+        <input id="image_upload" hidden name="preferences[image_upload]" type="file" onchange="previewFile(this)">
+        <label for="image_upload" style="margin-top: 5px;" class="link">
+          Upload new profile image
+        </label>
+      </div>
+      <br>
+      <%= text_input f, :name, value: (if !String.contains?(@current_persona.name, "generated"), do: @current_persona.name), placeholder: "Enter a nick for this persona", class: "form-control", maxlength: 30, required: true %>
+      <%#= if @errors["name"] do %>
+        <small style="color:brown;text"><%#= @errors["name"] %></small>
+      <%# end %>
+      <br>
+      <button class="btn btn-success" type="button" name="button" onclick="saveCanvas()">
+        Save preferences
+      </button>
+    </div>
+  </div>
+</div>
+
+<% end %>

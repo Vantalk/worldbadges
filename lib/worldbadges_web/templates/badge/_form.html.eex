@@ -1,0 +1,296 @@
+<script type="text/javascript">
+  // VARIABLES
+  // var topOffset  = document.getElementById('top-bar').offsetHeight;
+  var updatePosition = false;
+  var xOffset = null;
+  var yOffset = null;
+  var shape = 'none';
+  var imageUrl = '<%= image_for_badge(@badge) %>';
+  // var imageUrl = '/images/profiles/test.jpg';
+  // TODO: design, movies, science
+  var maxSize = 150;
+  // img.src = 'http://1dut.com/wp-content/uploads/2011/09/30-beautiful-phoenix-artworks3dabstractline-drawings-and-oil-paintigs-1dut.com-11.jpg';
+  // img.src = 'http://images2.fanpop.com/image/photos/9200000/Water-Dragon-water-dragons-9204975-113-120.jpg';
+  var description = document.getElementById('desc-badge');
+  var list = document.getElementById('list-badge');
+  var options = document.getElementById('opt-badge');
+
+  function reset() {
+    // 15 is for padding
+    yOffset = document.getElementById('head-badge').clientHeight + document.getElementById('top-bar').clientHeight + 15
+    xOffset = document.getElementById('control-bar').clientWidth + 15
+    // document.getElementById('badge_shape_none').checked = true;
+    // document.getElementById('badge_name').value = "";
+    draw()
+    if (window.location.search.substr(1) == "reload") {
+      toggleList(document.getElementById('list-text'), "badge");
+      popMessage("Succesfully updated", "success")
+    } else if (window.location.href.split('/').pop() == "edit") {badgeNextStep()}
+  }
+
+  // SET FUNCTIONS
+  function setSize(value) {
+    maxSize = Number(value)
+    draw();
+  }
+
+  function setShape(object) {
+    shape = object.value;
+    draw();
+  }
+
+  // SHAPES
+  function badgeShape(ctx, xoff, yoff) {
+    ctx.beginPath();
+    ctx.moveTo(49 + xoff, 60 + yoff);
+    ctx.bezierCurveTo(49  +  xoff, 38  + yoff, 151 + xoff, 39  + yoff, 152 + xoff, 60  + yoff);
+    ctx.bezierCurveTo(153 +  xoff, 86  + yoff, 115 + xoff, 164 + yoff, 100 + xoff, 166 + yoff);
+    ctx.bezierCurveTo(83  +  xoff, 168 + yoff, 46  + xoff, 88  + yoff, 49  + xoff, 60  + yoff);
+  }
+
+  function diamondShape(ctx, xoff, yoff) {
+    ctx.beginPath();
+    ctx.moveTo(5 + xoff, 80 + xoff);
+    ctx.lineTo(50 + xoff, 20 + xoff);
+    ctx.lineTo(150 + xoff, 20 + xoff);
+    ctx.lineTo(195 + xoff, 80 + xoff);
+    ctx.lineTo(100 + xoff, 198 + xoff);
+  }
+
+  function globeShape(ctx, xoff, yoff) {
+    ctx.beginPath();
+    ctx.arc(100, 100, 98, 0, Math.PI * 2, true);
+  }
+
+  function heartShape(ctx, xoff, yoff) {
+    ctx.beginPath();
+    ctx.moveTo(80 + xoff, 30  + xoff);
+    ctx.lineTo(35  + xoff, 30  + xoff);
+    ctx.lineTo(10  + xoff, 65 + xoff);
+    ctx.lineTo(10 + xoff, 110 + xoff);
+    ctx.lineTo(100 + xoff, 190 + xoff);
+    ctx.lineTo(190 + xoff, 110  + xoff);
+    ctx.lineTo(190 + xoff, 65  + xoff);
+    ctx.lineTo(165 + xoff, 30  + xoff);
+    ctx.lineTo(120 + xoff, 30  + xoff);
+    ctx.lineTo(100 + xoff, 50  + xoff);
+    ctx.lineTo(80 + xoff, 30  + xoff);
+  }
+
+  function hexagonShape(ctx, xoff, yoff) {
+    ctx.beginPath();
+    ctx.moveTo(100 + xoff, 2  + xoff);
+    ctx.lineTo(15  + xoff, 50  + xoff);
+    ctx.lineTo(15  + xoff, 150 + xoff);
+    ctx.lineTo(100 + xoff, 198 + xoff);
+    ctx.lineTo(185 + xoff, 150 + xoff);
+    ctx.lineTo(185 + xoff, 50  + xoff);
+    ctx.lineTo(100 + xoff, 2  + xoff);
+  }
+
+  function pentagonShape(ctx, xoff, yoff) {
+    ctx.beginPath();
+    ctx.moveTo(100 + xoff, 0  + xoff);
+    ctx.lineTo(0  + xoff,  75  + xoff);
+    ctx.lineTo(37  + xoff, 195 + xoff);
+    ctx.lineTo(163 + xoff, 195 + xoff);
+    ctx.lineTo(200 + xoff, 75 + xoff);
+    ctx.lineTo(100 + xoff, 0  + xoff);
+  }
+
+  // DRAWING FUNCTIONS
+  function clipShape(ctx, shape) {
+    switch (shape) {
+      case "badge":
+        badgeShape(ctx, 0, 0);
+        ctx.clip();
+        break;
+      case "diamond":
+        diamondShape(ctx, 0, 0);
+        ctx.clip();
+        break;
+      case "globe":
+        globeShape(ctx, 0, 0);
+        ctx.clip();
+        break;
+      case "heart":
+        heartShape(ctx, 0,0);
+        ctx.clip();
+        break;
+      case "hexagon":
+        hexagonShape(ctx, 0,0);
+        ctx.clip();
+        break;
+      case "pentagon":
+        pentagonShape(ctx, 0,0);
+        ctx.clip();
+        break;
+      default:
+        break;
+    }
+  }
+
+  function drawShape(ctx, shape) {
+    switch (shape) {
+      case "badge":
+        badgeShape(ctx, 0.5, 0.5);
+        ctx.stroke();
+        break;
+      case "diamond":
+        ctx.beginPath();
+        ctx.moveTo(5 + 0.5, 80 + 0.5);
+        ctx.lineTo(50 + 0.5, 20 + 0.5);
+        ctx.lineTo(150 + 0.5, 20 + 0.5);
+        ctx.lineTo(195 + 0.5, 80 + 0.5);
+        ctx.lineTo(100 + 0.5, 198 + 0.5);
+        ctx.lineTo(5 + 0.5, 80 + 0.5);
+        ctx.stroke();
+        break;
+      default:
+        break;
+    }
+  }
+
+  function moveImage(e) {
+    if (updatePosition) draw(e)
+  }
+
+  function pictureSize(width, height) {
+    if (width < maxSize && height < maxSize) {return [width, height]}
+
+    var ratio; var diff;
+    if (width > height) {
+      ratio = width/height;
+      diff = width - maxSize;
+      width = width - diff;
+      height = height - (diff/ratio);
+    } else {
+      ratio = height/width;
+      diff = height - maxSize;
+      height = height - diff;
+      width = width - (diff/ratio);
+    }
+
+    return [width, height]
+  }
+
+  function draw(e = null) {
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+
+    canvas.width = canvas.width; //reset canvas
+    clipShape(ctx, shape);
+
+    var img = new Image();
+    img.crossOrigin = "anonymous";
+
+    img.onload = function() {
+      var size = pictureSize(img.width, img.height);
+
+      if (updatePosition) {
+        // console.log("e.x is "+e.x+"; left panel + 15px padding: "+xOffset);
+        ctx.drawImage(img, e.x - xOffset - size[0]/2, e.y - yOffset - size[1]/2, size[0], size[1]);
+      } else {
+        var xPosition = (200 - size[0])/2
+        var yPosition = (200 - size[1])/2
+        ctx.drawImage(img, xPosition, yPosition, size[0], size[1]);
+      }
+
+      drawShape(ctx, shape);
+    };
+    img.src = imageUrl;
+
+  }
+
+  function saveCanvas() {
+    if (imageUrl) {
+      var url = document.getElementById('canvas').toDataURL('image/png');
+      $("#canvascontent").val(url);
+      ajaxFormSubmit('badge_create', "badge")
+    } else {
+      alert("No image uploaded");
+    }
+  }
+
+  function badgeNextStep() {
+    var element = document.getElementById('badge_upload');
+    element.nextElementSibling.hidden = true;
+    element.nextElementSibling.nextElementSibling.hidden = false;
+  }
+
+  function toggleMove() {
+    updatePosition = !updatePosition
+    document.body.style.cursor = updatePosition ? "move" : "default"
+  }
+
+  function previewFile(object) {
+    var file    = object.files[0];
+    var reader  = new FileReader();
+
+    reader.addEventListener("load", function () {
+      imageUrl = reader.result;
+      draw()
+      badgeNextStep()
+    }, false);
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+  document.onmousemove = moveImage;
+</script>
+
+<%= form_for @changeset, @action, [multipart: true, id: "badge_create"], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+  <%= hidden_input f, :canvascontent, id: "canvascontent" %>
+
+  <!-- scale image -->
+  <div class="row">
+    <div style="float: left; position: relative; padding-left: 15px;">
+      <div>
+        <input hidden id="badge_upload" name="badge[upload]" type="file" onchange="previewFile(this)">
+        <div>
+          <label for="badge_upload" style="position: absolute; top:80px; left: 70px;">
+            <i class="fa fa-camera" style="font-size: 50px;"></i> Upload
+          </label>
+        </div>
+        <div hidden>
+          <i class="fa fa-arrows" style="position: absolute; left:18px; top: 5px;" title="Click image to enable/disable repositioning"></i>
+          <label for="badge_upload" title="Upload a different picture" style="position: absolute; top:181px; left: 18px;"><i class="fa fa-camera"></i></label>
+        </div>
+        <canvas onclick="toggleMove()" style="object-fit:contain;border-style:solid;border-width:2px;border-color:black;" id="canvas" width="200" height="200"></canvas>
+        <br>
+        <input type="range" style="width:200px;"
+         min="0" max="400" step="1" value="150"
+         onchange="setSize(this.value);" />
+      </div>
+    </div>
+
+    <div class="" style="float: left; position: relative; padding-left: 15px">
+      <b>Shapes</b>
+      <div class="form-group">
+        <%= radio_button(f, :shape, "none",     onclick: "setShape(this);", checked: true) %> none <br>
+        <%= radio_button(f, :shape, "badge",    onclick: "setShape(this);") %> badge <br>
+        <%= radio_button(f, :shape, "globe",    onclick: "setShape(this);") %> globe <br>
+        <%= radio_button(f, :shape, "diamond",  onclick: "setShape(this);") %> diamond <br>
+        <%= radio_button(f, :shape, "heart",    onclick: "setShape(this);") %> heart <br>
+        <%= radio_button(f, :shape, "hexagon",  onclick: "setShape(this);") %> hexagon <br>
+        <%= radio_button(f, :shape, "pentagon", onclick: "setShape(this);") %> pentagon <br>
+
+        <%= error_tag f, :choose %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group-responsive">
+    <%= label f, :name, class: "control-label" %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
+  </div>
+  <%#= link "Create", to: "#", class: "btn btn-success", onclick: "saveCanvas()" %>
+<% end %>

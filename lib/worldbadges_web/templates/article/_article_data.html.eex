@@ -1,0 +1,38 @@
+<%= if @article.data do %>
+  <%= if token = @article.data["token"] do %>
+    <div class="youtube-player" data-id="<%= token %>"></div>
+    <% url = "https://www.youtube.com/watch?v=#{token}" %>
+    <%= link url, to: url %>
+  <% end %>
+  <%= if @article.data["title"] do %>
+    <div class="container" style="border: 1px solid lightgray; max-width: 60%; padding: 0; margin-left: 0; margin-top: 0.8rem">
+      <%= link to: @article.data["link"], target: "_blank" do %>
+        <div class="row">
+          <div class="col">
+            <%= img_tag article_image(@article.data["image"]), style: "max-width: 100%;" %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <b class="truncated-string" style="font-size: small; color: black;"><%= if @article.data["title"], do: @article.data["title"] %></b>
+            <p class=" truncated-string" style="font-size: small"><%= @article.data["link"] %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+  <%= if @article.data["image"] && !@article.data["title"] do %>
+    <div>
+      <%= img_tag article_image(@article.data["image"]), class: "article-img" %>
+    </div>
+  <% end %>
+
+  <%= if @article.data["upload"] do %>
+    <br>Uploaded file: <%= link @article.data["upload_name"], to: @article.data["upload"] %>
+  <% end %>
+  <%= if @article.data["upload_image"] && !@article.data["image"] do %>
+    <div>
+      <%= img_tag article_image(@article.data["upload_image"]), class: "article-img" %>
+    </div>
+  <% end %>
+<% end %>

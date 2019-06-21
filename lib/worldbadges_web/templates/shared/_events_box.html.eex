@@ -1,0 +1,24 @@
+<div class="container-fluid">
+  <div id="events-box" data-type='' hidden class="main-border row" onmouseup="document.onmousemove = null;">
+    <div class="col-sm-12" style="display: flex; flex-direction: row; padding: 0">
+      <div style="flex: auto; margin-bottom:1px; height:1.3em" class="main-bg">
+        <span id="events-title">Chat</span>
+      </div>
+      <div class="main-bg" style="height:1.3em;">
+        <i class="fa fa-times right" style="font-size:small;" aria-hidden="true" onclick="document.getElementById('events-box').hidden = true"></i>
+      </div>
+    </div>
+
+    <div class="col-sm-12" style="padding: 11px">
+      <button onclick="showMissedEvents('chat', <%= @current_persona.id %>)" type="button" name="button" class="btn btn-sm btn-light main-border main-bg"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> Missed</button>
+      <button hidden id="events-chat-list" onclick="showBoxData('contacts')" style='float:right; <%= if @l_page?, do: "display: none" %>' type="button" name="button" class="btn btn-sm btn-light main-border"><i class="fa fa-user" aria-hidden="true"></i> Show contacts list</button>
+      <button hidden id="events-posting-list" onclick="showBoxData('pages')" style='float:right; <%= if @l_page?, do: "display: none" %>' type="button" name="button" class="btn btn-sm btn-light main-border"><i class="fa fa-user" aria-hidden="true"></i> Show pages list</button>
+      <!-- <button type="button" name="button" class="btn btn-sm btn-light main-border"><i class="fa fa-users" aria-hidden="true"></i> Group chat</button> -->
+    </div>
+
+    <div class="col-sm-12" style="padding-left: 0">
+      <div id="events-list"></div>
+    </div>
+  </div>
+
+</div>

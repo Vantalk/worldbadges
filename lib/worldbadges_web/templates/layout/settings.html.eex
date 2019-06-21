@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <% [color, bg, connected] = data(@current_persona) %>
+    <script type="text/javascript">
+      window.guardian_token = '<%= @conn.private[:guardian_default_jwt] %>';
+      window.page_name = '<%= @conn.path_params["name"] %>';
+      window.user_id = '<%= if @current_persona, do: @current_persona.user_id %>';
+      window.pid = '<%= if @current_persona, do: @current_persona.id %>';
+      window.connected_personas = <%= connected %>;
+      window.events_panel = true;
+      window.openedChatPids = [];
+      window.missedChatPids = [];
+    </script>
+
+    <title>Worldbadges</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body onload="reset()" style="overflow-x: hidden">
+    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+    <style media="screen">
+      .main-bg { background: <%= color %>; color: white}
+      .main-color { color: <%= color %>; }
+      .main-border { border-color: <%= color %>;}
+      .btn-link, .link, a { color: <%= color %>; }
+
+      body { background: linear-gradient(<%= bg %>, white); }
+    </style>
+
+
+
+    <main role="main">
+      <%= render WorldbadgesWeb.SharedView, "notification_box.html" %>
+
+      <!-- TOP -->
+      <div class="main-bg" id="top-bar" style="height: 35px; text-align: center; font-size: 18px;">
+        <b>World Badges</b>
+        <%= link to: page_path(@conn, :index) do %>
+          <%= img_tag "/images/logo.png", style: "width: 30px;" %>
+        <% end %>
+      </div>
+
+      <%= render @view_module, @view_template, Map.put(assigns, :l, "page") %>
+
+      <div id="chat-boxes"></div>
+    </main>
+
+    <%#= render WorldbadgesWeb.SharedView, "_write_box.html", conn: @conn, current_persona: @current_persona %>
+    <%= render WorldbadgesWeb.SharedView, "_events_box.html", conn: @conn, current_persona: @current_persona, l_page?: false %>
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

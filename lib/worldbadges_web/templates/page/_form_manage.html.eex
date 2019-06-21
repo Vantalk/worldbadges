@@ -1,0 +1,117 @@
+<script type="text/javascript">
+  function useBadge(badge, field_id) {
+    var element = document.getElementById(field_id)
+
+    if (element.value) {document.getElementById(element.value).hidden = false}
+    element.value = badge.id
+    badge.className = "main-bg"
+  }
+
+  function show(object) {
+    var type = object.parentElement.dataset.type
+    var name = object.parentElement.dataset.name
+    window.location = "/"+type+"/"+name
+  }
+
+  function fillForm(object, type, response) {
+    debugger
+  }
+</script>
+
+<%= form_for @changeset, @action, [id: "page_create"], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+
+
+  <%= hidden_input f, :badge_id %>
+  <%= hidden_input f, :parent_id %>
+
+  <div class="form-group">
+    <%= label f, :name, class: "control-label" %>
+    <%= text_input f, :name, class: "form-control", maxlength: 30 %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= checkbox f, :free_access, class: "checkbox", style: "display: inline" %>
+    <%= label f, :free_access, class: "control-label" %>
+    <%= error_tag f, :free_access %>
+
+    <%= checkbox f, :public_view, class: "checkbox", style: "display: inline" %>
+    <%= label f, :public_view, class: "control-label" %>
+    <%= error_tag f, :public_view %>
+  </div>
+
+
+  <div class="form-group">
+    <button type="button" class="btn main-bg" name="button" data-toggle="modal" data-target="#myModal">Select asociated badges</button>
+
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header main-bg">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Worldbadges selection</h4>
+          </div>
+          <div class="modal-body">
+            <%= if @persona_badges == nil do %>
+              <i>No badge created to represent page. You can create one later.</i><br>
+            <% else %>
+              <i>Select page badge</i>
+              <div class="row">
+                <!-- TODO: add placeholder -->
+                <%= for badge <- @persona_badges do %>
+                  <div class="col-xs-3">
+                    <!-- TODO: properly set image size -->
+                    <%= img_tag image_for_badge(badge),
+                      class: "",
+                      style: "max-height: 60px;",
+                      onclick: "useBadge(this, 'page_badge_id')",
+                      alt: badge.name,
+                      id: "badge_#{badge.id}" %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+
+            <hr>
+
+            <i>Select parent interest</i>
+            <div class="row">
+              <!-- TODO: add placeholder -->
+              <%= for badge <- @badges do %>
+                <div class="col-xs-3">
+                  <!-- TODO: properly set image size -->
+                  <%= img_tag image_for_badge(badge),
+                    class: "",
+                    style: "max-height: 60px;",
+                    onclick: "useBadge(this, 'page_parent_id')",
+                    alt: badge.name,
+                    id: "page_#{badge.id}" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <%= error_tag f, :photo %>
+  </div>
+
+  <!-- <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div> -->
+<% end %>

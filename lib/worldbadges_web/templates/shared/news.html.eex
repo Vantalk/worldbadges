@@ -1,0 +1,37 @@
+<div class="container">
+
+  <h1 style="text-align: center">News Section</h1>
+  <div class="row">
+    <div class="col-sm-9">
+      <div class="media border p-3">
+        <!-- <img src="img_avatar3.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;"> -->
+        <div class="media-body">
+          <h4>Release of version 0.8 alpha <span style="font-size: small" class="badge badge-primary">technical</span></h4>
+          <small><i>Posted on January 28, 2019</i></small>
+          <p>
+            This release makes the platform publicly available for demonstration.
+            <br>List of changes in v0.8:
+            <ol>
+              <li>As part of being a demo, the database is reseted each 24h at 0:00 UTC</li>
+              <li>Updated design for mobile compatibility on most pages. Design on buttons bar and
+                side pages list was overhauled.</li>
+            </ol>
+            Next priority focus:
+            <ol>
+              <li>Finish mobile design update</li>
+              <li>Investigate Chrome Android 403</li>
+              <li>Automate regular tasks</li>
+              <li>Improve test suite</li>
+            </ol>
+          </p>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 border">
+      <strong style="text-align: center">Archive</strong>
+      <br>
+      <a href="#">January 2019</a>
+    </div>
+  </div>
+</div>

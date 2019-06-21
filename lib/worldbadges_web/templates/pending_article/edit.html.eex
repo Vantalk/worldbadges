@@ -1,0 +1,5 @@
+<h2>Edit Pending article</h2>
+
+<%= render "form.html", Map.put(assigns, :action, pending_article_path(@conn, :update, @pending_article)) %>
+
+<span><%= link "Back", to: pending_article_path(@conn, :index) %></span>

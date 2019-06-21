@@ -1,0 +1,71 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- LEFT -->
+    <div class="col-sm-4" style="padding: 0;">
+      <div class="border">
+        <a href="/persona/change_persona" title="Switch through personas" style="position: absolute; background: whitesmoke; left: 48%; z-index: 1; padding: 0 1px"><i class="fa fa-user" aria-hidden="true"></i></a>
+        <div class="row">
+          <div class="col" style="padding-right: 0">
+            <%= link to: link_for_persona(@current_persona) do %>
+              <%= img_tag image_for_persona(@current_persona), class: "border", style: "width: 100%; height: 100%"  %>
+            <% end %>
+          </div>
+          <div class="col" style="padding-left: 0">
+            <%= link to: "#",
+              data: [
+                toggle: "popover",
+                title: "#{@persona.name} #{@add}",
+                html: true,
+                content: "<div style='width: 100%;overflow-x:auto'><b>Interests</b><br>#{badge_list(@persona_badges)}</div>"
+              ] do %>
+              <%= img_tag image_for_persona(@persona), class: "border", style: "width: 100%; height: 100%" %>
+            <% end %>
+          </div>
+        </div>
+
+        <div id="buttons_bar2">
+          <%= render WorldbadgesWeb.SharedView, "_buttons_bar_mobile.html", conn: @conn, current_persona: @current_persona %>
+        </div>
+      </div>
+
+      <%= render WorldbadgesWeb.PageView, "_list_of_contacts.html", conn: @conn, pages: @pages %>
+      <%= link "v0.8a", to: shared_path(@conn, :news), style: "color: grey" %>
+    </div>
+
+
+    <!-- RIGHT -->
+    <div class="col-sm-10">
+      <!-- height: 90vh; overflow: auto; -->
+      <div class="row">
+        <!-- MAIN AND ADS -->
+        <div id="content" class="col-sm-7" data-persona="<%= @persona.id %>" data-offset="0" data-scroll-forward="true" onscroll="loadMore(this, 'persona_articles')" style="padding-right: 0; height: 100vh; overflow: auto;">
+          <!-- could add ad here -->
+          <%= if @articles == [] do %>
+            <br>
+            <div class='card'>
+              <div class='card-body'>
+                <%= img_tag("/images/logo.png", style: "width: 30px;") %>
+                <%= @persona.name %> has not written any articles on this page yet. Articles will show up here as they are posted.
+              </div>
+            </div>
+          <% else %>
+            <%= for article <- @articles do %>
+              <%= render WorldbadgesWeb.ArticleView, "_persona_article.html", article: article, ad_toggle: true, current_persona: @current_persona, persona: @persona %>
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="col-sm-5 sidebar_right" style="height: 90vh; overflow: hidden; padding-top: 10px; ">
+          <!-- ADS -->
+          <%= if @current_persona.style.settings["ad"] != "survival" do %>
+            <%= render WorldbadgesWeb.AdView, "_ad.html", ad: @ad %>
+          <% end %>
+          <%= render WorldbadgesWeb.PageView, "_events_panel.html", events: @events %>
+
+          <!-- COMMENTS -->
+          <%= render WorldbadgesWeb.CommentView, "_comments.html", comments: @comments, persona: @current_persona %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

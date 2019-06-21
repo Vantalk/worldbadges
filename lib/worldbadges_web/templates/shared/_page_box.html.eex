@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <div id="page-box" hidden class="main-border row" onmouseup="document.onmousemove = null;">
+    <div class="col-sm-12" style="display: flex; flex-direction: row; padding: 0">
+      <div style="flex: auto; margin-bottom:1px; height:1.3em" class="main-bg">
+        <span id="pb-title"></span>
+      </div>
+      <div class="main-bg" style="height:1.3em;">
+        <i class="fa fa-times right" style="font-size:small;" aria-hidden="true" onclick="document.getElementById('page-box').hidden = true"></i>
+      </div>
+    </div>
+
+    <div id="page-box-buttons" class="col-sm-12" style="padding: 0.4em">
+      <button id="pb-write" onclick="showPageBoxSection('page-box-write', this)" type="button" name="button" class="btn btn-sm btn-light main-border main-bg"><i class="fa fa-pencil" aria-hidden="true"></i> Write posts</button>
+      <button id="pb-members" onclick="showPageBoxSection('page-box-members', this)" type="button" name="button" class="btn btn-sm btn-light main-border"><i class="fa fa-users" aria-hidden="true"></i> Members</button>
+      <button id="pb-settings" onclick="showPageBoxSection('page-box-settings', this)" type="button" name="button" class="btn btn-sm btn-light main-border"><i class="fa fa-wrench" aria-hidden="true"></i> Settings</button>
+    </div>
+
+    <div class="col-sm-12" style="padding: 5px 0">
+      <div id="page-box-write">
+        <textarea id="pb-textarea" rows="4" class="form-control js-auto-size" data-recipient="<%#= @contact.id %>" data-group-chat="false" onclick="resizeWriteBox(this)"></textarea>
+
+        <button class='btn main-bg btn-sm' onclick="writeArticle()">Send</button>
+        <button class='btn btn-default btn-sm' onclick="logToggle('pb')"><i class="fa fa-clock-o"></i> <span id="log-time-pb">1 day</span></button>
+        <div id="page-box-visible" class="btn-group">
+          <button type="button" class="btn btn-sm btn-default" onclick="toggleVisibility()">
+            <i class="fa fa-eye" aria-hidden="true"></i> <span id="pb-visible">public</span>
+          </button>
+        </div>
+        <%= render WorldbadgesWeb.SharedView, "_upload.html", elem_id: "pb-upload" %>
+      </div>
+
+      <div id="page-box-members" hidden></div>
+      <div id="page-box-settings">
+
+      </div>
+    </div>
+  </div>
+
+</div>

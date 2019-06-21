@@ -1,0 +1,50 @@
+<div class="row">
+  <!-- LEFT CENTER -->
+  <div class="col-sm-2">
+    <div class="border">
+      <%= link to: link_for_persona(@current_persona) do %>
+        <%= img_tag @current_persona.image, class: "border", style: "width: 50%; float: left;" %>
+      <% end %>
+      <%= link to: "/" do %>
+        <%= img_tag "/images/logo-badge.png", class: "border", style: "width: 50%;" %>
+      <% end %>
+      <%= render WorldbadgesWeb.SharedView, "_buttons_bar_mobile.html", conn: @conn, current_persona: @current_persona %>
+    </div>
+
+    <div id="search" style="display: none">
+      <input type="search" style="color: black; line-height: 26px; width: 85vw;" placeholder="Find pages and people"></input>
+      <button type="button" class="btn main-bg" style="width: 13vw;">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div id="groups" style="display: none">
+      <%= render "_list_of_contacts.html", contacts: @contacts, badges: @badges %>
+      <%= render "_page_list.html", conn: @conn, pages: @pages %>
+    </div>
+
+  </div>
+
+
+  <!-- RIGHT CENTER -->
+  <div class="col-sm-10">
+    <!-- height: 90vh; overflow: auto; -->
+    <div class="row">
+      <!-- MAIN AND ADS -->
+      <div id="content" class="col-sm-7 content" style="height: 100vh; overflow: auto;">
+        <!-- <%#= raw @ad.content %> -->
+        <%= render WorldbadgesWeb.AdView, "_ad.html", ad: @ad %>
+        <%= render WorldbadgesWeb.ArticleView, "_grouped_article_mobile.html", articles: @articles, badges: @badges %>
+      </div>
+
+      <div class="col-sm-5 sidebar_right" style="height: 90vh; overflow: hidden; margin-left: -15px;">
+        <!-- ADS -->
+        <%= render WorldbadgesWeb.AdView, "_ad.html", ad: @ad %>
+        <%= render "_events_panel.html", events: @events %>
+
+        <!-- COMMENTS -->
+        <%= render WorldbadgesWeb.CommentView, "_comments.html" %>
+      </div>
+    </div>
+  </div>
+</div>

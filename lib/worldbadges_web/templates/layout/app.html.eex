@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Worldbadges</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+  </head>
+
+  <body>
+    <style media="screen">
+      .main-bg { background: purple; color: white}
+      .main-color { color: purple; }
+      .main-border { border-color: purple;}
+      .btn-link, .link, a { color: purple; }
+
+
+    </style>
+
+    <main role="main">
+      <!-- TOP -->
+      <div class="container-fluid">
+        <%= if WorldbadgesWeb.Shared.is_mobile?(@conn) do %>
+          <%= render "_top_bar_mobile.html", assigns %>
+        <% else %>
+          <%= render "_top_bar_desktop.html", conn: @conn %>
+        <% end %>
+      </div>
+
+      <!-- END TOP -->
+
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+      <%= render @view_module, @view_template, assigns %>
+    </main>
+
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

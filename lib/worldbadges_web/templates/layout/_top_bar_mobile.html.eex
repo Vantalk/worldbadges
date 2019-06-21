@@ -1,0 +1,14 @@
+<div class="row main-bg" id="top-bar">
+  <div style='<%= if @current_persona, do: "height: 12vh" %>' class="main-bg"></div>
+  <div class="col text-center main-bg" style="position:fixed; top:0; z-index:2">
+    <span style="color: white; font-size: 18px; font-weight: bold;">World Badges</span>
+    <%= link to: page_path(@conn, :index) do %>
+      <%= img_tag "/images/logo.png", style: "width: 30px;" %>
+    <% end %>
+    <%= if @current_persona do %>
+      <div id="buttons_bar1">
+        <%= render WorldbadgesWeb.SharedView, "_buttons_bar_mobile.html", assigns %>
+      </div>
+    <% end %>
+  </div>
+</div>

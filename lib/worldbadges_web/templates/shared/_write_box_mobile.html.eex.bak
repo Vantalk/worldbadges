@@ -1,0 +1,26 @@
+<div id="write-box" class="row" data-type='persona_article' >
+  <div class="col-sm">
+    <div id="write-text">
+      <p style="margin-top: 0">
+        <span id="write-title">Write article for</span>
+        <%= render WorldbadgesWeb.SharedView, "_upload.html", elem_id: "article-upload" %>
+      </p>
+      <div id="write-messages" onscroll="loadMore(this, 'messages')"></div>
+
+      <!-- TODO: switch comments/articles / contacts; append messages; set height/width to personas manual drag -->
+      <textarea id="write-textarea" rows="4" class="form-control js-auto-size" data-recipient="<%#= @contact.id %>" data-group-chat="false" onclick="resizeWriteBox(this)"></textarea>
+
+      <button class='btn main-bg btn-sm' onclick="writeObject()">Send</button>
+      <!-- <button class='btn main-bg btn-sm' onclick="sendMessage(this, wChatPid, 'write_box_log_time')">Send</button> -->
+      <!-- <button class='btn main-bg btn-sm' onclick="document.getElementById('write-messages').append('<br>')">Send</button> -->
+
+
+      <button class='btn btn-default btn-sm' onclick="logToggle('write')"><i class="fa fa-clock-o"></i> Save: <span id="log-time-write">1 day</span></button>
+      <div class="btn-group" hidden>
+        <button type="button" class="btn btn-sm btn-default" onclick="toggleVisibility()">
+          <i class="fa fa-eye" aria-hidden="true"></i> Visible to: <span id="write-visible">public</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

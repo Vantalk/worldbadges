@@ -1,0 +1,40 @@
+<div id="events_panel" class="card" style="margin-top: 15px;">
+  <div class="card-header">
+    <i style="color:grey">Latest events</i>
+    <div id="events" style="max-height: 72vh; overflow-y: auto;">
+      <div id="events_start"></div>
+      <%= for event <- @events do %>
+        <%= render "_event.html", event: event %>
+      <% end %>
+
+      <!-- <div class="notification">
+        <img class="small-image" src="/images/persona3.jpg">  <button type="button" class="btn btn-sm main-bg">John Legere</button>
+        <i style="color:grey">Gained disapproval - 11:43</i>
+        <img class="small-image" style="float:right;" src="/images/Art.jpg">
+
+        <br> our favorite photo from the weekend!
+      </div>
+
+      <div class="notification">
+        <img class="small-image" src="/images/persona2.jpg">  <button type="button" class="btn btn-sm main-bg">Firefox Mozilla</button>
+        <i style="color:grey">New comment - 11:43</i>
+        <img class="small-image" style="float:right" src="/images/Art.jpg">
+        <br> our favorite photo from the weekend!
+      </div>
+
+      <div class="notification">
+        <img class="small-image" src="/images/persona2.jpg">  <button type="button" data-chat="Mozilla.Firefox" class="btn btn-sm main-bg">Firefox Mozilla</button>
+        <a href="#" class="notify-link">New article - 11:23</a>
+        <img class="small-image" style="float:right;" src="/images/Art.jpg">
+
+        <br> It's Day 2 at #PlaylistLive and you can win 2 VIP Tickets to @PlaylistLive Orlando. Tweet us your favorite photo from the weekend!
+      </div> -->
+
+
+
+
+
+    </div>
+    <br>
+  </div>
+</div>

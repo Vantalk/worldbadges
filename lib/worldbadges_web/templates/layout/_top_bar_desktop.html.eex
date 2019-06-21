@@ -1,0 +1,72 @@
+<script type="text/javascript">
+  function search() {
+    var input = document.getElementById('search-input').value
+    var interests = document.getElementById('search-interest-list').getElementsByClassName('main-bg')
+    var ids = "";
+    for (var i = 0; i < interests.length; i++) {
+      ids += "&ids[]="+interests[i].dataset.id
+    }
+
+    location.href = "/search?input="+input+ids
+  }
+
+  function showInterestList(object) {
+    object.nextElementSibling.classList.add("show");
+  }
+
+  var close_interest_list = true;
+  function hideInterestList(object) {
+    var input = document.getElementById('search-input')
+    console.log("this was run");
+    setTimeout(function() {
+      if (input !== document.activeElement) object.nextElementSibling.classList.remove("show");
+    }, 300);
+  }
+
+  function toggleBadge(event) {
+    document.getElementById('search-input').focus()
+    event.stopPropagation();
+    var option = event.target;
+    if (option.style.color == "white") { option.style.color = ""}
+    else { option.style.color = "white" }
+
+    option.classList.toggle("main-bg")
+  }
+</script>
+<div class="row main-bg" id="top-bar">
+  <div class="col"></div>
+
+  <!-- <div class="col text-center" style='<%= if !@conn.assigns[:current_persona], do: "min-width: 90%" %>'> -->
+  <div class="col text-center">
+    <span style="color: white; font-size: 18px; font-weight: bold;">World Badges</span>
+    <%= link to: page_path(@conn, :index) do %>
+      <%= img_tag "/images/logo.png", style: "width: 30px;" %>
+    <% end %>
+  </div>
+
+  <div class="col">
+    <%= if @conn.assigns[:current_persona] do %>
+      <div style="display: flex;flex-direction: row;float: right;">
+        <div class="dropdown">
+          <input id="search-input" onfocus="showInterestList(this)" onblur="hideInterestList(this)" onkeyup="if (event.keyCode == 13) search()" type="search" style="color: black; line-height: 26px; margin: 3px; border-width: 0" placeholder="Find pages and people"></input>
+          <div id="search-interest-list" class="dropdown-menu" style="max-height:9rem;overflow-y:auto;width:100%">
+            <%= for page <- Worldbadges.Groups.general_pages() do %>
+              <a href="#" class="link truncated-string" title="Select interest" data-id="<%= page.id %>" onclick="toggleBadge(event)">
+                <%= img_tag WorldbadgesWeb.Shared.image_for_page(page), class: "small-image" %>
+                <%= page.name %>
+              </a>
+            <% end %>
+          </div>
+        </div>
+
+        <button onclick="search()" type="button" class="btn btn-sm" style="background: transparent;">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- <button title="Options menu" type="button" class="btn w-100 dropdown-toggle main-bg" data-toggle="dropdown">
+    <i class="fa fa-bars" aria-hidden="true"></i>
+  </button> -->
+</div>

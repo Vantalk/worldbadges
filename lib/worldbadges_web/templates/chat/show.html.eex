@@ -1,0 +1,13 @@
+<h2>Show Chat</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @chat.name %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: chat_path(@conn, :edit, @chat) %></span>
+<span><%= link "Back", to: chat_path(@conn, :index) %></span>

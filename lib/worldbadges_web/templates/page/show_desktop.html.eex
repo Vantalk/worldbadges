@@ -1,0 +1,68 @@
+<div class="row">
+  <!-- LEFT CENTER -->
+  <div class="col-sm-2" style="height: 93vh; padding-right: 0;">
+    <div class="border">
+      <div style="margin-bottom: 1px;">
+        <a href="/persona/change_persona" title="Switch through personas" style="position: absolute; background: whitesmoke; left: 48%; z-index: 1; padding: 0 1px"><i class="fa fa-user" aria-hidden="true"></i></a>
+        <div class="row">
+          <div class="col-sm" style="padding-right: 0">
+            <%= link to: link_for_persona(@current_persona) do %>
+              <%= img_tag image_for_persona(@current_persona), class: "border", style: "width: 100%; height: 100%" %>
+            <% end %>
+          </div>
+          <div class="col-sm" style="padding-left: 0">
+            <%= link to: "#",
+              data: [
+                toggle: "popover",
+                title: "#{@page.name} #{join(@member?, @page, @current_persona)}",
+                html: true,
+                content: (if @admin?, do: "<a href='#{page_path(@conn, :edit, @page.name)}'>Manage</a>")
+              ] do %>
+              <%= img_tag image_for_page(@page), class: "border", style: "width: 100%; height: 100%" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+
+      <%= render WorldbadgesWeb.SharedView, "_buttons_bar_desktop.html", conn: @conn, current_persona: @current_persona %>
+    </div>
+
+    <%= render "_list_of_contacts.html", conn: @conn, current_persona: @current_persona, pages: @pages %>
+    <%#= render "_page_list.html", conn: @conn, pages: @pages %>
+    <p style="position: absolute; bottom: 0">
+      <a style="color: grey;" href="#">v0.8a</a>
+    </p>
+  </div>
+
+
+  <!-- RIGHT CENTER -->
+  <div class="col-sm-10">
+    <!-- height: 90vh; overflow: auto; -->
+    <div class="row">
+      <!-- MAIN AND ADS -->
+      <div id="content" class="col-sm-7" data-page="<%= @page.name %>" data-offset="0" data-scroll-forward="true" onscroll="loadMore(this, 'page_articles')" style="padding-right: 0; height: 100vh; overflow: auto;">
+        <!-- <%#= raw @ad.content %> -->
+        <%= if placeholder = article_placeholder(@articles, @member?, @page, @current_persona) do %>
+          <br>
+          <%= placeholder %>
+        <% else %>
+          <%= for article <- @articles do %>
+            <%= render WorldbadgesWeb.ArticleView, "_page_article.html", conn: @conn, article: article, current_persona: @current_persona, persona: article.persona, ad_toggle: true %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="col-sm-5 sidebar_right" style="height: 90vh; overflow: hidden; padding-top: 10px;">
+        <!-- ADS -->
+        <%= if @current_persona.style.settings["ad"] != "survival" do %>
+          <%= render WorldbadgesWeb.AdView, "_ad.html", ad: @ad %>
+        <% end %>
+        <%= render "_events_panel.html", events: @events, conn: @conn %>
+
+        <!-- COMMENTS -->
+        <%= render WorldbadgesWeb.CommentView, "_comments.html", comments: @comments %>
+      </div>
+    </div>
+  </div>
+</div>

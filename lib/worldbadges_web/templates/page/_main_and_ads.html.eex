@@ -1,0 +1,13 @@
+<div class="col-sm-7 main">
+  <%= for article <- @articles do %>
+    <%= render WorldbadgesWeb.ArticleView, "_article.html", article: article %>
+  <% end %>
+</div>
+
+<div id="comments" class="col-sm-5 sidebar_right">
+  <!-- COMMENTS -->
+  <%= render WorldbadgesWeb.CommentView, "_comment.html" %>
+
+  <!-- ADS -->
+  <%= render WorldbadgesWeb.AdView, "_ad.html", ad: @ad %>
+</div>

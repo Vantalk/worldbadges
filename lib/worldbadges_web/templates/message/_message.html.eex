@@ -1,0 +1,5 @@
+<div id="message_<%= @message.id %>" class="<%= @status %>">
+  <%= img_tag WorldbadgesWeb.Shared.image_for_persona(@persona), class: "small-image" %>&nbsp;
+  <button type="button" class="btn name-tag main-bg"><%= @persona.name %></button>
+</div>
+<%= WorldbadgesWeb.SharedView.parse_content(@message.content) %> <br>

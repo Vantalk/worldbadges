@@ -1,0 +1,90 @@
+<style media="screen">
+  .unconsent {
+    color: brown;
+    font-weight: bold !important;
+  }
+</style>
+
+<script type="text/javascript">
+  function confirmUnconsent(object) {
+    if (object.checked && confirm("WARNING! This will delete your account. \nSince without consent we can't display or store your data this will also force us to delete your account. \nAre you sure you wish to proceed?")) {
+      ajaxRequest('/delete_account')
+    } else {
+      ajaxRequest('/revoke_account_deletion')
+      object.checked = false
+    }
+  }
+
+  function ajaxRequest(url) {
+    var request = new XMLHttpRequest()
+
+    request.onreadystatechange = function(){
+      if (request.readyState === 4) {
+        var response = request.response;
+        if (request.status === 200 && request.statusText === 'OK') {
+          if (url == "/delete_account") {alert("Account will be removed in 48 hours.")}
+          else if (url == "/revoke_account_deletion") {alert("Account removal was canceled and you are still consenting with our Terms & Privacy")}
+          else {alert("Your account will be reserved.")}
+        } else if (request.status === 400) {
+          console.log(request);
+          alert(response)
+          // errorMessage(object)
+        }
+      }
+    }
+
+    request.open("GET", url);
+    request.send();
+  }
+</script>
+
+<div class="row">
+  <!-- LEFT CENTER -->
+  <div class="col-sm-2" style="height: 93vh; padding-right: 0;">
+    <div class="border">
+      <div class="row">
+        <div class="col-sm" style="padding-right: 0">
+          <%= link to: link_for_persona(@current_persona) do %>
+            <%= img_tag image_for_persona(@current_persona), class: "border", style: "width: 100%; height: 100%" %>
+          <% end %>
+        </div>
+        <div class="col-sm" style="padding-left: 0">
+          <%= link to: "/" do %>
+            <%= img_tag "/images/logo-badge.png", class: "border", style: "width: 100%; height: 100%" %>
+          <% end %>
+        </div>
+      </div>
+      <%= render WorldbadgesWeb.SharedView, "_buttons_bar.html", conn: @conn, current_persona: @current_persona %>
+    </div>
+
+    <br>
+
+    <br>
+    <div id="settings_url">
+      <%= link to: shared_path(@conn, :access_settings), class: "btn" do %>
+        <i class="fa fa-key" aria-hidden="true"></i> Account access
+      <% end %>
+      <%= link to: shared_path(@conn, :notifications_settings), class: "btn" do %>
+        <i class="fa fa-bell" aria-hidden="true"></i> Notifications
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-sm-10">
+    <br>
+    <div id="profile-edit" class="row">
+      <div class="col-5">
+        <h4>Personas separation</h4>
+        <div class="checkbox">
+          <label>
+            <%= checkbox(:f, :delete, checked: @connected_notifications?) %> Receive notifications for all my personas
+          </label>
+        </div>
+      </div>
+
+      <div class="col-6">
+
+      </div>
+    </div>
+  </div>
+</div>

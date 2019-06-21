@@ -1,0 +1,16 @@
+<h4 class="main-color">
+  <i class="fa fa-users" aria-hidden="true"></i> Group
+  <b class="btn btn-sm btn-success" onclick="submitGroupForm()">Save</b>
+</h4>
+<a href="#" id="list-text" onclick="toggleList(this, 'group')"><i class="fa fa-list" aria-hidden="true"></i> List all</a>
+&nbsp;
+<a href="#" id="learn-text" onclick="toggleDesc(this, 'group')"><i class="fa fa-info-circle" aria-hidden="true"></i> Learn more</a>
+
+<br><br>
+
+<div id="list-group"></div>
+
+<div id="desc-group" hidden>
+  You can group interests, pages or personas to easier access them or to restrict/grant them access to content.
+  <br><b>Creation:</b> Choose a name and group type, then add elements to that group.
+</div>

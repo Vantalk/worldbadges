@@ -1,0 +1,77 @@
+<div hidden id="write-box" class="row" data-type='persona_article' >
+  <div class="col-sm" style="padding: 0">
+
+    <div>
+      <div class="main-bg" style="text-align:center;width:30px;">
+        <div title="Pages" class="white-bottom-border" onclick="selectWObject('persona_article')">
+          <i class="fa fa-file-text-o"></i>
+        </div>
+        <div title="Private chat" class="white-bottom-border" onclick="switchWContacts()">
+          <i class="fa fa-comment-o"></i>
+        </div>
+        <div title="Group chat" class="white-bottom-border" onclick="switchWContacts()">
+          <i class="fa fa-comments-o"></i>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-sm">
+
+    <div style="flex: auto">
+      <div id="write-list" style="padding: 0">
+        <div id="write-page-list">
+          <!-- <div id="write-comment" hidden>
+            <div style="display: inline-flex;">
+              <%#= img_tag "/images/logo.png", class: "small-image" %>
+              <%#= link "Opened article", to: "#", class: "btn btn-sm btn-link",
+              onclick: "selectWObject('comment')" %>
+            </div>
+          </div> -->
+          <div>
+            <%= img_tag image_for_persona(@current_persona), class: "small-image" %>
+            <%= link "My page", to: "#", class: "btn btn-sm btn-link",
+            onclick: "selectWObject('persona_article')" %>
+          </div>
+          <%= for page <- WorldbadgesWeb.SharedView.writebox_pages(@current_persona) do %>
+            <div>
+              <%= img_tag image_for_page(page), class: "small-image" %>
+              <%= link page.name, to: "#", class: "btn btn-sm btn-link",
+              onclick: "selectWObject('page_article', '#{page.name}')" %>
+            </div>
+          <% end %>
+        </div>
+
+        <div id="write-contact-list" hidden></div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="col-sm">
+    <div id="write-text">
+      <p style="margin-top: 0">
+        <span id="write-title">Write article for</span>
+        <%#= render WorldbadgesWeb.SharedView, "_upload.html", elem_id: "article-upload" %>
+      </p>
+      <div id="write-messages" onscroll="loadMore(this, 'messages')"></div>
+
+      <!-- TODO: switch comments/articles / contacts; append messages; set height/width to personas manual drag -->
+      <textarea id="write-textarea" rows="4" class="form-control js-auto-size" data-recipient="<%#= @contact.id %>" data-group-chat="false" onclick="resizeWriteBox(this)"></textarea>
+
+      <button class='btn main-bg btn-sm' onclick="writeObject()">Send</button>
+      <!-- <button class='btn main-bg btn-sm' onclick="sendMessage(this, wChatPid, 'write_box_log_time')">Send</button> -->
+      <!-- <button class='btn main-bg btn-sm' onclick="document.getElementById('write-messages').append('<br>')">Send</button> -->
+
+
+      <button class='btn btn-default btn-sm' onclick="logToggle('write')"><i class="fa fa-clock-o"></i> Save: <span id="log-time-write">1 day</span></button>
+      <div class="btn-group" hidden>
+        <button type="button" class="btn btn-sm btn-default" onclick="toggleVisibility()">
+          <i class="fa fa-eye" aria-hidden="true"></i> Visible to: <span id="write-visible">public</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

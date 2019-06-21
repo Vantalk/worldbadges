@@ -1,0 +1,18 @@
+<h4 class="main-color">
+  <i class="fa fa-file-text-o" aria-hidden="true"></i> Page
+  <b class="btn btn-sm btn-success" onclick="ajaxFormSubmit('page_create', 'page')">Save</b>
+</h4>
+<a href="#" id="list-text" onclick="toggleList(this, 'page')"><i class="fa fa-list" aria-hidden="true"></i> List all</a>
+&nbsp;
+<a href="#" id="learn-text" onclick="toggleDesc(this, 'page')"><i class="fa fa-info-circle" aria-hidden="true"></i> Learn more</a>
+
+<br><br>
+
+<div id="list-page"></div>
+
+<div id="desc-page" hidden>
+  Pages are divided in interest pages and persona pages. You can restrict access globally for both types, but you can also
+  decide on a per article basis on your persona page.
+  <br><b>Creation:</b> Choose a name and a badge to represent your page if you created one. <b>Public view</b> allows
+  non-members to view the page and <b>free access</b> permits anyone to post and subscribe to the page.
+</div>

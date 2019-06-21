@@ -1,0 +1,156 @@
+<script type="text/javascript">
+  function reset() {
+    if (window.location.search.substr(1) == "reload") {
+      toggleList(document.getElementById('list-text'), "page");
+      popMessage("Succesfully updated", "success")
+    }
+  }
+
+  function useBadge(badge, field_id) {
+    var element = document.getElementById(field_id)
+    var selection = element.value
+    if (selection == badge.id) {element.value = null}
+    else {
+      if(selection) document.getElementById(selection).className = ""
+      element.value = badge.id
+    }
+    console.log(element);
+
+    badge.classList.toggle("main-bg")
+  }
+
+  function searchNonMembers() {
+    ajaxRequest('search_non_members',
+    '/search_non_members?input='+document.getElementById('non-member-search-input').value+'&page=<%= @page.name %>'
+  )
+  }
+</script>
+
+<div class="row">
+  <div class="col-sm-5">
+    <%= form_for @changeset, @action, [id: "page_create"], fn f -> %>
+      <%= if @changeset.action do %>
+        <div class="alert alert-danger">
+          <p>Oops, something went wrong! Please check the errors below.</p>
+        </div>
+      <% end %>
+
+      <%= hidden_input f, :badge_name, value: (if @page.badge, do: parse_name(@page.badge.name)) %>
+
+      <div class="form-group-responsive">
+        <%= label f, :name, class: "control-label" %>
+        <%= text_input f, :name, class: "form-control", maxlength: 30 %>
+        <%= error_tag f, :name %>
+      </div>
+
+      <div class="form-group">
+        <%= checkbox f, :free_access, class: "checkbox", style: "display: inline" %>
+        <%= label f, :free_access, class: "control-label" %>
+        <%= error_tag f, :free_access %>
+
+        <%= checkbox f, :public_view, class: "checkbox", style: "display: inline" %>
+        <%= label f, :public_view, class: "control-label" %>
+        <%= error_tag f, :public_view %>
+      </div>
+
+      <div class="form-group">
+        <button type="button" class="btn main-bg" name="button" data-toggle="modal" data-target="#badgesModal">Select associations</button>
+
+        <div id="badgesModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header main-bg">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Associations</h4>
+              </div>
+
+              <div class="modal-body">
+                <%= if @persona_badges == [] do %>
+                  <i>No badge created to represent page. You can create one later.</i><br>
+                <% else %>
+                  <i>Select page badge</i>
+                  <div class="row">
+                    <!-- TODO: add placeholder -->
+                    <%= for badge <- @persona_badges do %>
+                      <div class="col-xs-3">
+                        <!-- TODO: properly set image size -->
+                        <%= img_tag image_for_badge(badge),
+                          class: (if badge.id == @page.badge_id, do: "main-bg"),
+                          style: "max-height: 60px;",
+                          onclick: "useBadge(this, 'page_badge_name')",
+                          alt: badge.name,
+                          id: parse_name(badge.name) %>
+                      </div>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <%= error_tag f, :photo %>
+      </div>
+    <% end %>
+  </div>
+  <!-- <div class="col-sm-7" style="overflow-y: auto; height: 40vh">
+    <div class="row">
+      <div id="members-list" class="col-sm-4">
+        <b>Members</b><br>
+        <%= for persona <- @page_personas do %>
+          <div>
+            <%= img_tag image_for_persona(persona), class: "small-badge" %>
+            <%= persona.name %>&nbsp;<%= link raw("<i class='fa fa-times' aria-hidden='true'></i>"), to: "#",
+              onclick: "personaToPageAction('kick', this, '#{parse_name(@page.name)}', '#{persona.id}')"
+            %>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-sm-4">
+        <b>Invited personas</b><br>
+        <%= for persona <- @invited_personas do %>
+          <div>
+            <%= img_tag image_for_persona(persona), class: "small-badge" %> <%= persona.name %>
+            <%= link raw("<i class='fa fa-times' aria-hidden='true'></i>"), to: "#",
+              onclick: "personaToPageAction('revoke_invite', this, '#{parse_name(@page.name)}', '#{persona.id}')"
+            %>
+          </div>
+        <% end %>
+      </div>
+      <div class="col-sm-4">
+        <b>Awaiting personas</b><br>
+        <%= for persona <- @waiting_personas do %>
+          <div>
+            <%= img_tag image_for_persona(persona), class: "small-badge" %> <%= persona.name %>
+            <% page_name = parse_name(@page.name) %>
+            <span>
+              <%= link raw("<i class='fa fa-check' aria-hidden='true'></i>"), to: "#",
+                onclick: "personaToPageAction('accept_join', this, '#{parse_name(@page.name)}', '#{persona.id}')"
+              %>
+              <%= link raw("<i class='fa fa-times' aria-hidden='true'></i>"), to: "#",
+                onclick: "personaToPageAction('reject_join', this, '#{parse_name(@page.name)}', '#{persona.id}')"
+              %>
+              <%#= link raw("<i class='fa fa-times' aria-hidden='true'></i>"), to: "#",
+                onclick: "ajaxRequest('ban_join', '#{persona_path(@conn, :ban_join, id: persona.id, page: page_name)}', this)" %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    Search for persona: <input type="text" placeholder="PID or name" id="non-member-search-input" value="" onkeyup="if (event.keyCode == 13) searchNonMembers()">
+    <button onclick="searchNonMembers()" type="button" class="btn" style="background: transparent;">
+      <i class="fa fa-search" aria-hidden="true"></i>
+    </button>
+    <br>
+
+    <div id="persona-list"></div>
+
+  </div> -->
+</div>

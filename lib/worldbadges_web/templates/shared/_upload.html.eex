@@ -1,0 +1,9 @@
+<button type="button" name="button" class="btn btn-xs btn-danger" hidden onclick="toggleUploadLabel(true, '<%= @elem_id %>')">
+  <i class="fa fa-paperclip" aria-hidden="true"></i>
+  <!-- Remove file -->
+</button>
+<input id="<%= @elem_id %>" hidden name="article[upload]" type="file" data-empty='true' onchange="toggleUploadLabel(false, '<%= @elem_id %>')">
+<label for="<%= @elem_id %>" class="btn btn-xs btn-info"> <!-- style="margin-left: 0.5em" -->
+  <i class="fa fa-upload" aria-hidden="true"></i>
+  <!-- Upload file -->
+</label>

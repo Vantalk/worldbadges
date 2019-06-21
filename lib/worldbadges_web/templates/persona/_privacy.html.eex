@@ -1,0 +1,92 @@
+<script type="text/javascript">
+  function showSection(section) {
+    document.getElementById('privacy-summary').hidden = true;
+    document.getElementById(section).hidden = false;
+  }
+</script>
+<div class="col-sm-6" style="margin-top: 10vh;">
+  <div class="col-sm-9" style="padding:0;border-width:2px;border-style:solid;height:70vh;border-color:brown;overflow-y:auto;">
+
+    <div id="privacy-summary">
+      <h4 style="margin-bottom: 0">Privacy Summary</h4>
+      <i style="color: gray">Privacy by default</i>
+      <br><br>
+      Foreword:
+      We have designed our services with privacy in mind. For the site to work properly and legaly there is some information that we store or disclose.
+      For transparency below is a summary or privacy related concerns:
+      <ol>
+        <li>
+          On account creation and on log in your IP address is temporarily saved to prevent mass account creation.
+          <a href="#" onclick="showSection('faq1')"><i class="fa fa-question-circle"></i></a>
+        </li>
+        <li>We use cookies to keep you logged in and to fast display your&nbsp;preferences.
+          <a href="#" onclick="showSection('faq1')"><i class="fa fa-question-circle"></i></a>
+        </li>
+        <li>Your posts and messages will be displayed to the pages/people you make them available&nbsp;to.
+          <a href="#" onclick="showSection('faq2')"><i class="fa fa-question-circle"></i></a>
+        </li>
+        <li>All data referred to you is stored on DigitalOcean&nbsp;servers.
+          <a href="#" onclick="showSection('faq3')"><i class="fa fa-question-circle"></i></a>
+        </li>
+        <li>Some actions like add contact request, comment/award on article are stored for a limited time, while others like </li>
+        <li>Reported actions will </li>
+        <li>We show you one ad as default based on the interests you select.</li>
+        <li>Advertisers will get the related interest and a unique id on ad render and click. Location will be collected only if you enable it
+          to support and see local business ads. Location is not passed to advertisers or used in any other way.
+        </li>
+        <li>To prevent bots/scraping, a limited number of latest actions, are stored and automatically checked.
+          just action type and time,
+          The number is variable to keep the prevention efficient. If your activity is deemed suspicious, such as sending 3 friend requests
+          in one second, your actions will be looked into as to frequency and, only if needed, content.
+        </li>
+        <li>Where forced by law we will share data with authorities.</li>
+
+      </ol>
+    </div>
+
+    <div id="faq1" hidden>
+      <h4>Privacy Summary</h4>
+      <i>"We use cookies to keep you logged in and to fast display your&nbsp;preferences."</i>
+      <ol>
+        <li>Why?<br>Without a login cookie you would have to reconfirm who you are on every action on the website. That would be tedious.
+          Without a cookie to store your preferences some things will not display the same way as you left them since we don't store them any
+          other way or they would slow the page loading time if they are to be retrieved from our database.
+        </li>
+        <li>What is a cookie?<br>Simply put a very small file that is saved on your computer to be used by your browser. Full details: <a href="https://en.wikipedia.org/wiki/HTTP_cookie">here</a></li>
+        <li>What do you track with cookies?<br>The only tracking is the session id to keep you logged in. We don't track outside the website and other stuff. We consider that creepy.</li>
+        <li>Do you use my preference data in any way?<br>We only store to abhere to your chosen preferences. No dissemination, statistical or other usage.</li>
+      </ol>
+    </div>
+
+    <div id="faq2" hidden>
+      <h4>Privacy Summary</h4>
+      <i>"Your posts and messages will be displayed to the pages/people you make them available&nbsp;to."</i>
+      <ol>
+        <li>How?
+          <ul>
+            <li>On your personal page you have a dropdown option to choose to whom the article and it's comments will be visible to.</li>
+            <li>On other pages the page options will apply, specifically if "public view" is enabled anyone will see the content of the page, else
+              only members would. Also, "free access" allows anyone to become a member of that page if they have an account and share the page's
+              general interest category.
+            </li>
+            <li>Sending chat messages obviously makes the message visible to the recipient(s).</li>
+          </ul>
+        </li>
+        <li>Do you store my posts/messages?<br>Messages have the option to not be stored or stored for 1 day or 1 month. After that they are
+          deleted. Articles and comments remain stored until you or the page owner delete them. Exceptionally a reported article or comment
+          might be deleted by our team.
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div class="col-sm-3" style="padding:0">
+    <div style="border-width:2px 2px 2px 0px;border-style:solid;height:70vh;border-color:brown">
+      <div style="border-width: 1px;border-bottom:solid;border-color:brown">
+        Privacy Summary
+      </div>
+      <div style="border-width: 1px;border-bottom:solid;border-color:brown">
+        Cookies
+      </div>
+    </div>
+  </div>
+</div>

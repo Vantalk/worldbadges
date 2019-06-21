@@ -1,0 +1,46 @@
+<h4 class="main-color">
+  <i class="fa fa-newspaper-o" aria-hidden="true"></i> Advertisment
+  <b class="btn btn-sm btn-success" onclick="submitAdForm()">Save</b>
+</h4>
+<a href="#" id="list-text" onclick="toggleList(this, 'ad')"><i class="fa fa-list" aria-hidden="true"></i> List all</a>
+&nbsp;
+<a href="#" id="learn-text" onclick="toggleDesc(this, 'ad')"><i class="fa fa-info-circle" aria-hidden="true"></i> Learn more</a>
+
+<br><br>
+
+<div id="list-ad"></div>
+
+<div id="desc-ad" hidden>
+  <div id="desc-ad-list">
+    Ads are subject to a number of conditions to provide a happier persona experience and higher interactivity. Please see:<br>
+    <a href="#" onclick="toggleDetail('interest');"><i class="fa fa-bullseye" aria-hidden="true"></i> Target by interest</a><br>
+    <a href="#" onclick="toggleDetail('privacy');"><i class="fa fa-eye" aria-hidden="true"></i> Persona privacy</a><br>
+    <a href="#" onclick="toggleDetail('design');"><i class="fa fa-picture-o" aria-hidden="true"></i> Design</a><br>
+    <a href="#" onclick="toggleDetail('pricing');"><i class="fa fa-credit-card-alt" aria-hidden="true"></i> Pricing</a><br>
+    <a href="#" onclick="toggleDetail('civic');"><i class="fa fa-heart" aria-hidden="true"></i> Free civic ads</a>
+
+    <br><b>Creation:</b> Upload your ad image, choose the target interests, a name to refer to your ad and a landing url.
+  </div>
+
+  <div id="detail-interest" hidden>
+    Targeting by interests ensures personas see only things that they might be interested about and helps
+    advertisers address targeted audience. We do not recommend generalistic ads. <a href="#" onclick="toggleDetail('interest');">< Back</a>
+  </div>
+  <div id="detail-privacy" hidden>
+     We do not share persona information to advertisers. <a href="#" onclick="toggleDetail('privacy');">< Back</a>
+  </div>
+  <div id="detail-design" hidden>
+    Ad must be a static jpeg or png image with a size ratio of 4.5x1 (eg. 450px width with 100px height). These will
+    be reviewed on: message, graphics and linked url. Redirects must be approved.
+    <a href="#" onclick="toggleDetail('design');">< Back</a>
+  </div>
+  <div id="detail-pricing" hidden>
+     We offer free advertising for early advertisers for one month. <a href="#" onclick="toggleDetail('pricing');">< Back</a>
+  </div>
+  <div id="detail-civic" hidden>
+    Civic ads are always free under the following conditions: must not ask for money, prompt for imediate action or
+    guilt the persona for inaction, display images that are too negative and on the linked site they must provide for at least another
+    way of involvement than money contributions. In short: free civic ads must encourage involvment in a positive way
+    without just asking for money. <a href="#" onclick="toggleDetail('civic');">< Back</a>
+  </div>
+</div>

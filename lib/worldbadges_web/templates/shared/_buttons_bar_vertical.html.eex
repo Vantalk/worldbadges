@@ -1,0 +1,46 @@
+<div class="btn-group-vertical" style="float: right; z-index: 1; left: 13px;">
+  <!-- SETTINGS -->
+  <div class="dropdown">
+    <button class="btn btn-danger vertical_button_top" type="button" data-toggle="dropdown">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+    </button>
+    <ul class="dropdown-menu quick-menu">
+      <li><a href="#">Profile edit</a></li>
+      <li><a onclick="$('#content').hide();">View settings</a></li>
+      <li><a href="#">Preferences</a></li>
+      <li class="divider"></li>
+      <li><%= link "Log out", to: session_path(@conn, :delete, @current_persona), method: "delete" %></li>
+
+      <!-- <li><%= link raw("<i class='fa fa-shield' aria-hidden='true'></i> Create Badge"), to: badge_path(@conn, :new) %></li>
+      <li><%= link raw("<i class='fa fa-file-text-o' aria-hidden='true'></i> Create Page"), to: page_path(@conn, :new) %></li>
+      <li><%= link raw("<i class='fa fa-users' aria-hidden='true'></i> Create Group"), to: page_path(@conn, :new) %></li> -->
+    </ul>
+  </div>
+
+ <!-- CREATE -->
+ <div class="dropdown">
+   <button class="btn btn-danger vertical_button" type="button" data-toggle="dropdown">
+     <i class="fa fa-plus" aria-hidden="true"></i>
+   </button>
+   <ul class="dropdown-menu quick-menu">
+     <li><%= link raw("<i class='fa fa-shield' aria-hidden='true'></i> Create Badge"), to: badge_path(@conn, :new) %></li>
+     <li><%= link raw("<i class='fa fa-file-text-o' aria-hidden='true'></i> Create Page"), to: page_path(@conn, :new) %></li>
+     <li><%= link raw("<i class='fa fa-users' aria-hidden='true'></i> Create Group"), to: page_path(@conn, :new) %></li>
+   </ul>
+ </div>
+
+ <!-- NOTIFICATIONS -->
+ <button id="notifications_btn" type="button" class="btn btn-danger">
+   <i class="fa fa-bell" aria-hidden="true"></i>
+ </button>
+
+ <!-- GROUP/CONTACTS TOGGLE -->
+ <button type="button" class="btn btn-danger" onclick="$('#groups_list').toggle(); $('#list_of_contacts').toggle();">
+   <i class="fa fa-group" aria-hidden="true"></i>
+ </button>
+
+ <!-- POST -->
+ <button type="button" class="btn btn-danger">
+   <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+</button>
+</div>

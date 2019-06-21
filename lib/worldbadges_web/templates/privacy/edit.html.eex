@@ -1,0 +1,5 @@
+<h2>Edit Privacy</h2>
+
+<%= render "form.html", Map.put(assigns, :action, privacy_path(@conn, :update, @privacy)) %>
+
+<span><%= link "Back", to: privacy_path(@conn, :index) %></span>

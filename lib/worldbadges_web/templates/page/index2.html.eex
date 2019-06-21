@@ -1,0 +1,44 @@
+<div class="row">
+  <!-- LEFT CENTER -->
+  <div class="col-sm-2 sidebar_left">
+    <div class="row">
+      <%= link to: "/" do %>
+        <%= img_tag @current_persona.image, class: "profile_image" %>
+      <% end %>
+
+      <%= render WorldbadgesWeb.SharedView, "_buttons_bar.html", conn: @conn %>
+      <br>
+      <%= render WorldbadgesWeb.PageView, "_list_of_contacts.html", contacts: @contacts %>
+      <%= render WorldbadgesWeb.PageView, "_page_list.html", conn: @conn, groups: @groups %>
+    </div>
+  </div>
+
+
+  <!-- RIGHT CENTER -->
+  <div class="col-sm-10" style="background: #F0F0F0; height: 95vh; overflow: auto;">
+    <%= for article <- @articles do %>
+      <div class="row" style="">
+        <div style="background: #C52F24">
+          <%#= img_tag List.first(@articles).badge.image_path, class: "small-badge" %>
+        </div>
+        <% ad_toggle = if article == List.first(@articles), do: "$('#ad').toggle();" %>
+        <!-- MAIN AND ADS -->
+        <div class="col-sm-7 main">
+          <%= render WorldbadgesWeb.ArticleView, "_article.html", ad_toggle: ad_toggle, article: article %>
+        </div>
+
+        <div class="col-sm-5 sidebar_right" style="overflow: auto;">
+          <!-- ADS -->
+          <%= if ad_toggle do %>
+            <div id="ad">
+              <%= render WorldbadgesWeb.AdView, "_ad.html", ad: @ad %>
+            </div>
+          <% end %>
+          <!-- COMMENTS -->
+          <%= render WorldbadgesWeb.CommentView, "_comments.html", article: article, comments: @comments, current_persona: @current_persona %>
+        </div>
+      </div>
+      <br>
+    <% end %>
+  </div>
+</div>

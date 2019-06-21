@@ -1,0 +1,39 @@
+<div id="control-bar" class="col-sm-2" style="height: 93vh; padding-right: 0;">
+  <div class="border">
+    <a href="/persona/change_persona" title="Switch through personas" style="position: absolute; background: whitesmoke; left: 48%; z-index: 1; padding: 0 1px"><i class="fa fa-user" aria-hidden="true"></i></a>
+    <div class="row">
+      <div class="col-sm" style="padding-right: 0">
+        <%= link to: link_for_persona(@current_persona) do %>
+          <%= img_tag image_for_persona(@current_persona), class: "border", style: "width: 100%; height: 100%" %>
+        <% end %>
+      </div>
+      <div class="col-sm" style="padding-left: 0">
+        <%= link to: "/" do %>
+          <%= img_tag "/images/logo-badge.png", class: "border", style: "width: 100%; height: 100%" %>
+        <% end %>
+      </div>
+    </div>
+
+    <%= render WorldbadgesWeb.SharedView, "_buttons_bar.html", conn: @conn, current_persona: @current_persona %>
+  </div>
+
+  <div id="list_of_contacts">
+    <button type="button" class="btn btn-sm" style="padding-right: 30px; color: grey;" onclick="showSection('badge')">
+      <i class="fa fa-shield" aria-hidden="true"></i> Create badge
+    </button>
+    <button type="button" class="btn btn-sm" style="padding-right: 30px; color: grey;" onclick="showSection('page')">
+      <i class="fa fa-file-text-o" aria-hidden="true"></i> Create page
+    </button>
+    <!-- <button type="button" class="btn btn-sm" style="padding-right: 30px; color: grey;" onclick="showSection('group')">
+      <i class="fa fa-users" aria-hidden="true"></i> Create group
+    </button> -->
+    <button type="button" class="btn btn-sm" style="padding-right: 30px; color: grey;" onclick="showSection('ad')">
+      <i class="fa fa-newspaper-o" aria-hidden="true"></i> Create advertisement
+    </button>
+  </div>
+
+
+  <p style="position: absolute; bottom: 0">
+    <a style="color: grey;" href="#">v0.8</a>
+  </p>
+</div>

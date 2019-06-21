@@ -1,0 +1,31 @@
+<h2>Listing Worldbadges</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Image path</th>
+      <th>Description</th>
+      <th>Requirements</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for badge <- @badges do %>
+    <tr>
+      <td><%= badge.name %></td>
+      <td><%= badge.description %></td>
+      <td><%= badge.requirements %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: badge_path(@conn, :show, badge), class: "btn btn-default btn-sm" %></span>
+        <span><%= link "Edit", to: badge_path(@conn, :edit, badge), class: "btn btn-default btn-sm" %></span>
+        <span><%= link "Delete", to: badge_path(@conn, :delete, badge), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Badge", to: badge_path(@conn, :new) %></span>

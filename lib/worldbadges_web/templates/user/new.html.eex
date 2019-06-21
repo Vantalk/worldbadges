@@ -1,0 +1,5 @@
+<%= if is_mobile?(@conn) do %>
+  <%= render "new_mobile.html", assigns %>
+<% else %>
+  <%= render "new_desktop.html", assigns %>
+<% end %>

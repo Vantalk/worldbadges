@@ -1,0 +1,10 @@
+<div id="pages_list" hidden>
+  <%= for page <- @pages do %>
+    <%= img_tag image_for_page(page), class: "small-image" %>
+    <%= link page.name, to: page_path(@conn, :show, page.name), class: "btn btn-sm btn-link" %>
+    <br>
+  <% end %>
+  <%= img_tag "/images/logo.png", class: "small-image" %>
+  <%= link "More pages", to: "#", class: "btn btn-sm btn-link" %>
+  <br>
+</div>

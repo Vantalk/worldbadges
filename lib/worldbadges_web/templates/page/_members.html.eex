@@ -1,0 +1,91 @@
+<%= if admin?(@current_persona.id, @page) do %>
+  <div style="margin: 0px 0 0.6em 0.4em;">
+    <a id="mb-back" hidden href="#" onclick="showMembersSection('mb-accordion')" >
+      <i class="fa fa-angle-double-left" aria-hidden="true"></i> Back
+    </a>
+    <div id="mb-buttons">
+      <a href="#" onclick="showMembersSection('mb-accordion')" >
+        <span id="mb-count-members" class="badge badge-light"><%= length(@members) %></span>Members
+      </a>
+      <a href="#" onclick="showMembersSection('mb-waiting')" style="margin: 0 0.7em">
+        <span id="mb-count-waiting" class="badge badge-light"><%= length(@waiting) %></span>Requests
+      </a>
+      <a href="#" onclick="showMembersSection('mb-invited')">
+        <span id="mb-count-invited" class="badge badge-light"><%= length(@invited) %></span> Invites
+      </a>
+    </div>
+  </div>
+
+  <div id="mb-invited" hidden>
+    <input type="text" placeholder="Name" id="non-mb-search" value="" onkeyup="if (event.keyCode == 13) searchNonMembers()">
+    <button onclick="searchNonMembers()" type="button" class="btn" style="background: transparent;">
+      <i class="fa fa-search" aria-hidden="true"></i>
+    </button>
+    <div id="non-members"></div>
+
+    <%= for persona <- @invited do %>
+      <div class="flexed">
+        <%= link to: link_for_persona(persona), class: "link truncated-string" do %>
+          <%= img_tag image_for_persona(persona), class: "small-image" %><%= persona.name %>
+        <% end %>
+        <%= link to: "#", class: "btn btn-sm btn-danger", onclick: "personaToPageAction('revoke_invite', this, '#{parse_name(@page.name)}', '#{persona.id}')" do %>
+          <i class='fa fa-user-times' aria-hidden='true'></i> Revoke
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div id="mb-waiting" hidden>
+    <%= for persona <- @waiting do %>
+      <div class="flexed">
+        <%= link to: link_for_persona(persona), class: "link truncated-string" do %>
+          <%= img_tag image_for_persona(persona), class: "small-image" %><%= persona.name %>
+        <% end %>
+
+          <%= link raw("<i class='fa fa-user-plus' aria-hidden='true'></i>"), to: "#", class: "btn btn-sm", style: "padding: 0 5vw; color: green",
+            onclick: "personaToPageAction('accept_join', this, '#{parse_name(@page.name)}', '#{persona.id}')"
+          %>
+          <%= link raw("<i class='fa fa-user-times' aria-hidden='true'></i>"), to: "#", class: "btn btn-sm", style: "padding: 0 5vw; color: red",
+            onclick: "personaToPageAction('reject_join', this, '#{parse_name(@page.name)}', '#{persona.id}')"
+          %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+
+  <div id="mb-accordion">
+    <%= for member <- @members do %>
+      <div class="flexed">
+        <%= link to: link_for_persona(member), class: "link truncated-string" do %>
+          <%= img_tag image_for_persona(member), class: "small-image" %><%= member.name %>
+        <% end %>
+
+        <%= link to: "#mb-collapse-#{member.id}", class: "btn btn-sm collapsed", style: "padding: 0 5vw", data: [toggle: "collapse"] do %>
+          <i class="fa fa-caret-down"></i>
+        <% end %>
+      </div>
+
+
+      <div id="mb-collapse-<%= member.id %>" class="collapse" style="padding-left: 2px" data-parent="#mb-accordion">
+        <%= link to: "#", class: "btn btn-sm btn-danger", onclick: "personaToPageAction('kick', this, '#{parse_name(@page.name)}', '#{member.id}')" do %>
+          <i class="fa fa-user-times" aria-hidden="true"></i> Remove
+        <% end %>
+
+        <button class="btn btn-sm btn-info" type="button" name="button">
+          <i class="fa fa-user-circle" aria-hidden="true"></i> Make admin
+        </button>
+      </div>
+    <% end %>
+  </div>
+
+<% else %>
+
+  <%= for member <- @members do %>
+    <div class="flexed">
+      <%= link to: link_for_persona(member), class: "link truncated-string" do %>
+        <%= img_tag image_for_persona(member), class: "small-image" %><%= member.name %>
+      <% end %>
+    </div>
+  <% end %>
+
+<% end %>

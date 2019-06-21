@@ -1,0 +1,37 @@
+<div class="row">
+  <%= render WorldbadgesWeb.SharedView, "_control_bar.html", conn: @conn, current_persona: @current_persona %>
+
+  <div class="col-sm-10">
+    <div class="row">
+      <div class="col-sm-5">
+        <%= img_tag image_for_ad(@ad), style: "height: 97px; width: 100%;" %>
+      </div>
+    </div>
+    <ul>
+
+      <li>
+        <strong>Name:</strong>
+        <%= @ad.name %>
+      </li>
+
+      <li>
+        <strong>Url:</strong>
+        <%= @ad.url %>
+      </li>
+
+      <li>
+        <strong>Targets:</strong>
+        <%= @ad.targets %>
+      </li>
+
+      <li>
+        <strong>Status:</strong>
+        <%= @ad.status %>
+      </li>
+
+    </ul>
+
+    <span><%= link "Edit", to: ad_path(@conn, :edit, @ad) %></span>
+    <span><%= link "Back", to: ad_path(@conn, :new) %></span>
+  </div>
+</div>

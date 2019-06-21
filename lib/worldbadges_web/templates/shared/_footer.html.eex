@@ -1,0 +1,4 @@
+<div style="height: 10vh;"></div>
+<nav class="navbar bg-light fixed-bottom">
+  <%= link "v0.8a", to: "/news" %>
+</nav>

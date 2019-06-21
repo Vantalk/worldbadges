@@ -1,0 +1,35 @@
+<div class="row" style="padding: 10px">
+
+  <!-- Index -->
+  <div class="col-sm-12">
+    <h4>Help topics</h4>
+
+    <div>
+      <a href="#general-information"><h6>General information</h6></a>
+      <a href="#data-management-information"><h6>Data management information</h6></a>
+      <a href="#terms-and-conditions"><h6>Terms & Conditions</h6></a>
+    </div>
+  </div>
+
+  <!-- Contact bar -->
+  <nav class="navbar sticky-top" style="background: purple; width: 100%; color: white;">
+    Get assistance:
+    <%= link to: shared_path(@conn, :help_form, back: :help), style: "color: white" do %>
+      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>form
+    <% end %>
+    <a href="mailto:worldbadges@protonmail.com?Subject=Assistance%20email" title="worldbadges@protonmail.com" style="color: white"><i class="fa fa-envelope-o" aria-hidden="true"></i>email</a>
+
+    <a href="#top-bar" style="font-size: small; color: white;">Top <i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+  </nav>
+
+  <!-- Info -->
+  <div class="col-sm-12" style="padding-top: 10px;">
+    <%= render "_general_information.html", assigns %>
+    <hr>
+    <%= render "_data_management_information.html", assigns %>
+    <hr>
+    <%= render "_terms_and_conditions.html", assigns %>
+  </div>
+</div>
+
+<%= render "_footer.html", assigns %>

@@ -1,0 +1,26 @@
+<div id="events-box" data-type='chat' hidden class="main-border" onmouseup="document.onmousemove = null;">
+  <div style="display: block; margin-bottom:1px;width:90%;height:1.3em" draggable='true' class="drag-area main-bg" onmousedown="moveBox(this)" >
+    <span id="events-title">Missed chat messages</span>
+  </div>
+  <div class="main-bg" style="width:10%;height:1.3em;">
+    <i class="fa fa-times right" style="font-size:small;" aria-hidden="true" onclick="document.getElementById('events-box').hidden = true"></i>
+  </div>
+
+  <br>
+
+  <div class="main-bg" style="text-align:center;width:30px;">
+    <div title="Missed chat messages" class="white-bottom-border" onclick="eventsBoxToggle('chat', <%= @current_persona.id %>)">
+      <i class="fa fa-comment-o"></i>
+    </div>
+    <div title="Other missed events" class="white-bottom-border" onclick="eventsBoxToggle('posting', <%= @current_persona.id %>)">
+      <i class="fa fa-file-text-o"></i>
+    </div>
+  </div>
+
+  <div>
+    <div id="events-persona-list"></div>
+  </div>
+
+
+  <div id="events-list"></div>
+</div>

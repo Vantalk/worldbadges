@@ -1,0 +1,13 @@
+<h2>Show Style</h2>
+
+<ul>
+
+  <li>
+    <strong>Settings:</strong>
+    <%#= @style.settings %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: style_path(@conn, :edit, @style) %></span>
+<span><%= link "Back", to: style_path(@conn, :index) %></span>

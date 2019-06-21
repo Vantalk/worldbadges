@@ -1,0 +1,20 @@
+<div id="comments_panel" class="card" hidden>
+  <div class="card-body">
+    <a class="link">
+      <i class="fa fa-hand-o-left link" aria-hidden="true"></i>
+      <u>Show the post</u>
+    </a>
+    <% [a_id, fc_id, lc_id] = scrollData(@comments) %>
+    <div id="comments" data-article-id="<%= a_id %>" data-scroll-forward="<%= lc_id %>" data-scroll-backward="<%= fc_id %>" onscroll="loadMore(this, 'comments')">
+      <%= if @comments do %>
+        <%= for comment <- @comments do %>
+          <%= render "_comment.html", comment: comment %>
+        <% end %>
+      <% end %>
+      <!-- <div id="comments_start"></div> -->
+    </div>
+
+    <textarea id="comments_textarea" class="form-control" onkeyup="resizeCommentsTextarea(this)" style="padding: 0; resize: vertical; overflow:hidden; min-height: 50px"></textarea>
+    <button id="append_comment" type="button" class="btn main-bg btn-sm" style="min-height: 27px; width: 37%;">Send</button>
+  </div>
+</div>

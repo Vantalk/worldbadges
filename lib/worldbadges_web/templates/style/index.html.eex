@@ -1,0 +1,26 @@
+<h2>Listing Styles</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Settings</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for style <- @styles do %>
+    <tr>
+      <td><%= style.settings %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: style_path(@conn, :show, style), class: "btn btn-default btn-sm" %></span>
+        <span><%= link "Edit", to: style_path(@conn, :edit, style), class: "btn btn-default btn-sm" %></span>
+        <span><%= link "Delete", to: style_path(@conn, :delete, style), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Style", to: style_path(@conn, :new) %></span>

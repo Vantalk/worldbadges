@@ -1,0 +1,120 @@
+<script type="text/javascript">
+  function reset() {
+    if ("<%= @type %>" == "civic_ad") {
+      var civic = document.getElementById('civic_ad_civic');
+      civic.checked = true;
+      toggleTargets(civic)
+    }
+
+    if (window.location.search.substr(1) == "reload") {
+      toggleList(document.getElementById('list-text'), "ad");
+      popMessage("Succesfully updated", "success")
+    }
+  }
+
+  function toggleDetail(detail) {
+    var detail = document.getElementById('detail-'+detail);
+    var list = document.getElementById('desc-ad-list');
+    detail.hidden = !detail.hidden; list.hidden = !list.hidden
+  }
+
+  function toggleTargets(object) {
+    var targets = document.getElementById('targets')
+
+    if (object.checked) { targets.hidden = true }
+    else { targets.hidden = false }
+  }
+
+  <% %{names_string: names_string, badges_html: badges_html} = badges_data(@general_badges, @targets) %>
+  var targets = "<%= String.slice(names_string, 0..-2) %>".split("/")
+  function adToggleBadge(object) {
+    targets = addRemoveValue(targets, object.getAttribute('data-name'));
+    object.classList.toggle("main-bg");
+  }
+
+  // function show(object) {
+  //   var type = object.parentElement.dataset.type
+  //   var name = object.parentElement.dataset.name
+  //   window.location = "/"+type+"/"+name
+  // }
+
+  function submitAdForm() {
+    var elements_string = "";
+
+    for (var i = 0; i < targets.length; i++) {
+      if (i != 0) {elements_string += "/"}
+      elements_string += targets[i]
+    }
+    document.getElementById('ad_targets').value = elements_string;
+    ajaxFormSubmit('ad_create', 'ad')
+  }
+</script>
+
+<%= form_for @changeset, @action, [multipart: true, id: "ad_create"], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+  <%= hidden_input f, :type, value: @type %>
+  <%= hidden_input f, :targets %>
+
+  <div class="form-group-responsive">
+    <%= label f, :name, class: "control-label" %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class="form-group-responsive">
+    <%= label f, :onclick_url, class: "control-label" %>
+    <%= text_input f, :url, class: "form-control" %>
+    <%= error_tag f, :url %>
+  </div>
+
+  <div class="form-group">
+    <%= checkbox f, :civic, class: "checkbox", style: "display: inline", onclick: "toggleTargets(this)" %>
+    <%= label f, :civic, "Civic ad", class: "control-label" %><br>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :image, class: "btn main-bg control-label" %>
+    <%= file_input f, :image, hidden: true %>
+    <%= error_tag f, :image %>
+
+    <button id="targets" type="button" class="btn main-bg" name="button" data-toggle="modal" data-target="#ad_modal">Select target interests</button>
+
+    <div id="ad_modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header main-bg">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Worldbadges selection</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <%= for badge <- @general_badges do %>
+                <div class="col-xs-3">
+                  <!-- TODO: properly set image size -->
+                  <%= img_tag image_for_page(badge),
+                    class: (if badge.id in @targets, do: "main-bg"),
+                    style: "max-height: 60px;",
+                    onclick: 'adToggleBadge(this)',
+                    alt: badge.name,
+                    data: [name: badge.name] %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+<% end %>

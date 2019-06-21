@@ -1,0 +1,28 @@
+<h2>Listing Privacy</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Open</th>
+      <th>Settings</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for privacy <- @privacy do %>
+    <tr>
+      <td><%= privacy.open %></td>
+      <td><%= privacy.settings %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: privacy_path(@conn, :show, privacy), class: "btn btn-default btn-sm" %></span>
+        <span><%= link "Edit", to: privacy_path(@conn, :edit, privacy), class: "btn btn-default btn-sm" %></span>
+        <span><%= link "Delete", to: privacy_path(@conn, :delete, privacy), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Privacy", to: privacy_path(@conn, :new) %></span>

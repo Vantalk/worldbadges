@@ -1,0 +1,28 @@
+<h2>Listing Pending articles</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Content</th>
+      <th>Image</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for pending_article <- @pending_articles do %>
+    <tr>
+      <td><%= pending_article.content %></td>
+      <td><%= pending_article.image %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: pending_article_path(@conn, :show, pending_article), class: "btn btn-default btn-sm" %></span>
+        <span><%= link "Edit", to: pending_article_path(@conn, :edit, pending_article), class: "btn btn-default btn-sm" %></span>
+        <span><%= link "Delete", to: pending_article_path(@conn, :delete, pending_article), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Pending article", to: pending_article_path(@conn, :new) %></span>

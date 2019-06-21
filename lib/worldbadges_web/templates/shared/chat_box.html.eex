@@ -1,0 +1,20 @@
+<div draggable='true' class="drag-area" onmousedown="moveChat(this)" onmouseup="document.onmousemove = null;">
+</div>
+<div class='card-header' style="padding: 0 5px inherit 5px">
+  <h6 class='panel-title'>
+    <a data-toggle='collapse' href='#chat_collapse<%= @contact.id %>' class="link <%= @status %>">
+      <img class='small-image' src='<%= image_for_persona(@contact) %>'>
+      <%= @contact.name %>
+    </a>
+    <i class='fa fa-times' aria-hidden='true' onclick="closeChat(this, '<%= @contact.id %>')"></i>
+  </h6>
+</div>
+
+<div id='chat_collapse<%= @contact.id %>' class="collapse show">
+  <div id="messages_<%= @contact.id %>" class='card-body' data-persona="<%= @contact.id %>" data-status="<%= @status %>" data-offset="0" data-scroll-backward="<%= @scroll_bwd %>" onscroll="loadMore(this, 'messages')"></div>
+  <div class='card-footer'>
+    <textarea class="form-control js-auto-size" data-recipient="<%= @contact.id %>" data-group-chat="false"></textarea>
+    <button class='btn main-bg btn-sm' onclick="sendMessage(this, '<%= @contact.id %>')">Send</button>
+    <button class='btn btn-default btn-sm' onclick="logToggle('<%= @contact.id %>')"><i class="fa fa-clock-o"></i> Save: <span id="log-time-<%= @contact.id %>">off</span></button>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<%= if is_mobile?(@conn) do %>
+  <%= render "_buttons_bar_mobile.html", assigns %>
+<% else %>
+  <%= render "_buttons_bar_desktop.html", assigns %>
+<% end %>

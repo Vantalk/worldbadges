@@ -1,0 +1,23 @@
+<h4 id="data-management-information">Data management information</h4>
+<br>
+
+<b>In order to make the site functional and secure some info is stored temporarily</b>
+<br>1. We use a cookie to keep you logged in.
+<br>2. To prevent bots/scraping, our automated system (AntiBot) stores and
+checks a limited number of latest actions.
+<%# <br>3. On account creation and on log in your IP address is saved for a short
+  period of time to prevent mass account creation.  %>
+
+
+<br><br>
+
+<b>We keep data sharing under a tight lock</b>
+<br>1. Advertisers can not identify you. What we share is a generated id and a ad view count.
+<br>2. Our staff is restricted from aceessing your data/content from our
+internal systems without reason and logging.
+<br>3. Where forced by law we will share data with authorities.
+
+<br><br>
+
+<b>We do not own database storage servers</b>
+<br>Storage for all data is currently provided by <a href="https://www.digitalocean.com/">DigitalOcean</a> servers.

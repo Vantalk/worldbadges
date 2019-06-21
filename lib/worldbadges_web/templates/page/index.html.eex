@@ -1,0 +1,5 @@
+<%= if is_mobile?(@conn) do %>
+  <%= render "index_mobile.html", assigns %>
+<% else %>
+  <%= render "index_desktop.html", assigns %>
+<% end %>

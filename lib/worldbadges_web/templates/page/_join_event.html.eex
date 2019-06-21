@@ -1,0 +1,14 @@
+<div class="notification">
+  <div class="btn main-bg name-tag-picture">
+    <%= img_tag image_for_persona(@persona), class: "small-badge", style: "width: 1.6em; height: 1.6em" %>
+    <span><%= @persona.name %></span>
+  </div>
+
+  <!-- TODO: action - time -->
+  <%= link @message, to: link_for_persona(@persona), class: "notify-link" %>
+  <%= if @page do %>
+    <%= link to: link_for_page(@page) do %>
+      <%= img_tag image_for_page(@page), class: "small-image right" %>
+    <% end %>
+  <% end %>
+</div>

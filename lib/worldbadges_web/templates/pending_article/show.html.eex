@@ -1,0 +1,18 @@
+<h2>Show Pending article</h2>
+
+<ul>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @pending_article.content %>
+  </li>
+
+  <li>
+    <strong>Image:</strong>
+    <%= @pending_article.image %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: pending_article_path(@conn, :edit, @pending_article) %></span>
+<span><%= link "Back", to: pending_article_path(@conn, :index) %></span>

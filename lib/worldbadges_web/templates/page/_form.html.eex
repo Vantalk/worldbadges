@@ -1,0 +1,117 @@
+<script type="text/javascript">
+  function reset() {
+    // document.getElementById('page_name').value = "";
+    // document.getElementById('page_free_access').checked = false;
+    // document.getElementById('page_public_view').checked = false;
+    if (window.location.search.substr(1) == "reload") {
+      toggleList(document.getElementById('list-text'), "page");
+      popMessage("Succesfully updated", "success")
+    }
+  }
+
+  function useBadge(badge, field_id) {
+    var element = document.getElementById(field_id)
+    var selection = element.value
+    if (selection == badge.id) {element.value = null}
+    else {
+      if(selection) document.getElementById(selection).className = ""
+      element.value = badge.id
+    }
+
+    badge.classList.toggle("main-bg")
+  }
+</script>
+
+<%= form_for @changeset, @action, [id: "page_create"], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= hidden_input f, :badge_name %>
+  <%= hidden_input f, :parent_name %>
+
+  <div class="form-group-responsive">
+    <%= label f, :name, class: "control-label" %>
+    <%= text_input f, :name, class: "form-control", maxlength: 30 %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= checkbox f, :free_access, class: "checkbox", style: "display: inline" %>
+    <%= label f, :free_access, class: "control-label" %>
+    <%= error_tag f, :free_access %>
+
+    <%= checkbox f, :public_view, class: "checkbox", style: "display: inline" %>
+    <%= label f, :public_view, class: "control-label" %>
+    <%= error_tag f, :public_view %>
+  </div>
+
+
+  <div class="form-group">
+    <button type="button" class="btn main-bg" name="button" data-toggle="modal" data-target="#myModal">Select associations</button>
+
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header main-bg">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Associations</h4>
+          </div>
+          <div class="modal-body">
+            <%= if @persona_badges == [] do %>
+              <i>No badge created to represent page. You can create one later.</i><br>
+            <% else %>
+              <i>Select page badge</i>
+              <div class="row">
+                <!-- TODO: add placeholder -->
+                <%= for badge <- @persona_badges do %>
+                  <div class="col-xs-3">
+                    <!-- TODO: properly set image size -->
+                    <%= img_tag image_for_badge(badge),
+                      style: "max-height: 60px;",
+                      onclick: "useBadge(this, 'page_badge_name')",
+                      alt: badge.name,
+                      id: parse_name(badge.name) %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+
+            <hr>
+
+            <i>Select parent interest</i>
+            <div class="row">
+              <!-- TODO: add placeholder -->
+              <%= for page <- @subd_pages do %>
+                <div class="col-xs-3">
+                  <!-- TODO: properly set image size -->
+                  <%= img_tag image_for_page(page),
+                    style: "max-height: 60px;",
+                    onclick: "useBadge(this, 'page_parent_name')",
+                    alt: page.name,
+                    id: parse_name(page.name) %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <%= error_tag f, :photo %>
+  </div>
+
+  <!-- <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div> -->
+<% end %>

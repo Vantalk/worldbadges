@@ -1,0 +1,71 @@
+<div class="modal" id="report-modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Report reason</h4>
+        <small>see <a href="/terms#user-conduit" target="_blank">User Conduit</a> </small>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+
+        <div id="report-post-options">
+          <%# options 5-8 increment the below 1-4 options and are reserved %>
+          <div class="form-check">
+            <label class="form-check-label">
+              <%= radio_button(:case, :type, 1, checked: true, class: "form-check-input") %> It violates human rights or goes against any laws applicable to you or World Badges
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <%= radio_button(:case, :type, 2, class: "form-check-input") %> It is hateful, violent, racial, discriminatory, obscen, pornographic or invasive of another's privacy
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <%= radio_button(:case, :type, 3, class: "form-check-input") %> It is spam
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <%= radio_button(:case, :type, 4, class: "form-check-input") %> It contains viruses, malware or other harmful, deceitful or subversive code
+            </label>
+          </div>
+        </div>
+
+        <div id="report-user-options">
+          <div class="form-check">
+            <label class="form-check-label">
+              <%= radio_button(:case, :type, 9, checked: true, class: "form-check-input") %> Profile image displays a hateful, violent, racial, discriminatory, obscen or pornographic image or instigates breaking laws applicable to you or World Badges
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <%= radio_button(:case, :type, 10, class: "form-check-input") %> Profile name is hateful, racial, discriminatory, obscen, pornographic or instigates breaking laws applicable to you or World Badges
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <%= radio_button(:case, :type, 11, class: "form-check-input") %> Impersonates another person or entity (<a href="https://en.wikipedia.org/wiki/Identity_theft" target="_blank">identity theft</a>)
+            </label>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+          <%= textarea :case, :details, class: "form-control", rows: 3, maxlength: 300, placeholder: "Write details if necessary" %>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success" data-dismiss="modal" onclick="sendReport()">Send</button>
+      </div>
+
+    </div>
+  </div>
+</div>

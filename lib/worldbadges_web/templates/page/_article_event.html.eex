@@ -1,0 +1,19 @@
+<div class="notification">
+  <div class="btn main-bg name-tag-picture">
+    <%= img_tag image_for_persona(@persona), class: "small-badge", style: "width: 1.6em; height: 1.6em" %>
+    <span><%= @persona.name %></span>
+  <%#= link to: article_link(@page.name, @article.id) do %>
+  </div>
+
+  <!-- TODO: action - time -->
+  <%= link "New article", to: @link, class: "notify-link" %>
+  <%= if @page do %>
+    <%= link to: link_for_page(@page) do %>
+      <%= img_tag image_for_page(@page), class: "small-image right" %>
+    <% end %>
+  <% end %>
+  <br>
+  <a href="#" class="truncated-string black" onclick="this.classList.toggle('truncated-string')">
+    <%= @article.content %>
+  </a>
+</div>

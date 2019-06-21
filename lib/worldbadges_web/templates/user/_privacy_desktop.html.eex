@@ -1,0 +1,77 @@
+<script type="text/javascript">
+  function showSection(section) {
+    document.getElementById('privacy-summary').hidden = true
+    document.getElementById(section).hidden = false
+    document.getElementById("back").hidden = false
+  }
+
+  function showSummary() {
+    document.getElementById('privacy-summary').hidden = false
+    document.getElementById("back").hidden = true
+    for (var i = 1; i < 5; i++) {document.getElementById("faq"+i).hidden = true}
+  }
+</script>
+<div class="col" style="margin-top: 6vh;">
+  <div class="row">
+    <div class="col-sm-10" style="padding:0;">
+
+      <h5 style="margin-bottom: 0; float: left">Privacy Summary</h5>
+      <a hidden id="back" href="#" onclick="showSummary()" style="float: left; padding-left: 3px"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
+      <br><br>
+
+      <div id="privacy-summary">
+        Derived from ethical advertising, WorldBadges provides ethical services, meaning:
+        <br>
+
+        <br><a href="#" onclick="showSection('faq1')"><i class="fa fa-question-circle"></i> We do not sell, share or track your personal data</a>
+        <br><a href="#" onclick="showSection('faq2')"><i class="fa fa-question-circle"></i> Access to your data is secured even from our staff</a>
+        <br><a href="#" onclick="showSection('faq3')"><i class="fa fa-question-circle"></i> Your account information can be deleted anytime on request</a>
+        <br><a href="#" onclick="showSection('faq4')"><i class="fa fa-question-circle"></i> How we manage information is transparent</a>
+      </div>
+
+      <div id="faq1" hidden>
+        <i>We do not sell, share or track your personal&nbsp;data</i>
+        <br><br>
+        Your personal data is comprised of identifiable information such as name, postal code, email etc.
+        We do not request this information and neither seek to profile or sell such data.
+        What we do share with our advertisers is a mask identifier(random attributed number) and if a ad was viewed.
+        Your online habits are not traced back to your personal data.
+      </div>
+
+      <div id="faq2" hidden>
+        <i>Access to your data is secured even from our&nbsp;staff</i>
+        <br><br>
+        Measures are taken so that your account and actions online are kept secured.
+        Our staff does not have the ability to access any of your related content or data, unless solicited, reported or encountered online.
+      </div>
+
+      <div id="faq3" hidden>
+        <i>Your account information can be deleted anytime on&nbsp;request</i>
+        <br><br>
+        You can request the deletion of all your data at any time from your Settings page.
+        This goes further than compliancy with data protection laws such as the
+        <a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation#Right_to_erasure">right to erasure</a>.
+      </div>
+
+      <div id="faq4" hidden>
+        <i>How we manage information is&nbsp;transparent</i>
+        <br><br>
+        Information regarding to how we manage data can be read on our link <a href="/help#data-management-information">help page</a>.
+        You can also ask us questions about general data handling or data related to your account <%= link "here", to: shared_path(@conn, :help_form, back: :new_user) %>.
+        In our efforts to be open we will also provide news and maybe ask the community
+        on issues regarding the website.
+      </div>
+    </div>
+    <!-- <div class="col-sm-3" style="padding:0">
+      <div style="border-width:2px 2px 2px 0px;border-style:solid;height:70vh;border-color:brown">
+        <div style="border-width: 1px;border-bottom:solid;border-color:brown">
+          Privacy Summary
+        </div>
+        <div style="border-width: 1px;border-bottom:solid;border-color:brown">
+          Cookies
+        </div>
+      </div>
+    </div> -->
+  </div>
+
+</div>

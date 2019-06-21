@@ -1,0 +1,167 @@
+<h4 id="general-information">General information</h4>
+
+<span>Your rights</span>
+<ol>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#transparency-right">Transparency</a>
+    <div id="transparency-right" class="collapse">
+      Although our services do not require your personal info we still believe in the right of transparency.
+      As such we provide you with all data we have stored related to your account and try to answer any
+      questions. We will also provide news and maybe ask the community on issues regarding the website.
+      As an exception to data requests we might not provide info if that is another account's non-public activity
+      eg. blocking your account from accesing their page.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#privacy-right">Privacy</a>
+    <div id="privacy-right" class="collapse">
+      We take steps to ensure that your activity stays private. For this, we:
+      <br>- limit the data we show to advertisers to just your main selected interest and a marketing attributed id;
+      <br>- limit our agents' access to only the data related to their main case (eg. reported persona name - persona name);
+      <br>- limit our automated AntiBot to checking only a specific number of persona actions (just action type & date);
+      <br>- do not implement invasive trackers or spy on your activity outside our website;
+      <br>- offer you options to: choose who to share info with through Preferences > Privacy, who can see
+      the articles on your persona page and how long to keep your chat messages, if at all.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#deletion-right">Data deletion</a>
+    <div id="deletion-right" class="collapse">
+      You may at any time delete your account and it's related data. Data where just your marketing specific id is
+      used will not be deleted. Requests will be processed in 48hrs. If for any reason this process takes a longer
+      time you may inquiry our help line for details. Until the completion of this process you will still be able
+      to access your account.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#rights-suspension">Suspension of rights</a>
+    <div id="rights-suspension" class="collapse">
+      Some rights will be suspended if: you breach our Terms & Conditions, your activity is deemed suspicious by our
+      AntiBot or agent following a case or in response to requests by law enforcement or other government agencies
+      under valid legal process.
+    </div>
+  </li>
+</ol>
+
+<br><span>Account creation and management</span>
+<ol>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#registration">No email input on account creation</a>
+    <div id="registration" class="collapse">
+      We do not ask any personal info on registration, including email.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#account-details">How to edit account details</a>
+    <div id="account-details" class="collapse">
+      You can edit your account details from the quickbar button <a href="#" class="btn btn-default btn-sm"><i class="fa fa-bars"></i></a>,
+      All Settings, Profile. If you are logged in you can also click <%= link "here", to: shared_path(@conn, :access_settings) %>.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#account-recovery">How to recover your account</a>
+    <div id="account-recovery" class="collapse">
+      It is your important responsability to keep your account login info secure, confidential and memorized.
+      At the moment we do not provide a recovery means, but will soon add several recovery methods that you might choose from.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#secure-account">How to keep you account secure</a>
+    <div id="secure-account" class="collapse">
+      The best way would be to change your password regularly, have a security solution or antivirus installed (if on Windows)
+      and make sure you don't mistake our site for a fake one when inserting log in information by always checking the site
+      link for any suffix, prefix or in between characters. <br>
+      TIP: An easy way to keep all your passwords confidential, strong and memorized is to use a password manager
+      (eg. 1Password or LastPass) to store all your passwords in one vault for which you only need one password to gain access
+      to. Remember one instead of&nbsp;many.
+    </div>
+  </li>
+</ol>
+
+<br><span>Advertising</span>
+<ol>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#free-advertising">Free advertising available</a>
+    <div id="free-advertising" class="collapse">
+      We provide a few ways you can do free adevertising:
+      <br>- free ad trial: We may offer free trials periods to new advertisers;
+      <br>- free civic ads: If you are running for civic good then we support you. More details are available
+       in the topics below;
+      <br>- news section: Our main interests pages act as an information page or news section to our personas.
+      More details are available in the topics below.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#ad-creation">How to create an ad</a>
+    <div id="ad-creation" class="collapse">
+      Creating ads is done from the quick bar button <a href="#" class="btn btn-default btn-sm"><i class="fa fa-bars"></i></a>,
+      Create/edit objects. You need to provide an image, a name to track your ad, the URL that the ad will take the
+      persona to and the main interests targeted by the ad. You also have the option to mark your ad as civic and benefit
+      from the advantages of civic ads. Once submitted your ad will be placed up for approval.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#civic-ads">What are the benefits of civic ads</a>
+    <div id="civic-ads" class="collapse">
+      You may run your civic ad as a paid ad, but marking the "Civic ad" checkbox you could benefit from free
+      advertising on all main interests. The advantages of free civic ads are subject to several conditions
+      meant to keep personas from feeling discomforted:
+      <br>- ad will be displayed at a lower frequency, a max of 25% of the time where other paid ads exist for
+      the viewed interest;
+      <br>- ad must be considered of civic nature by us. eg. feed the hungry, reforestation, etc.
+      <br>- ad must use a neutral or positive empowerment message (no images that are too negative, prompts for imediate
+      action or guilt the persona for inaction);
+      <br>- ad and linked site must not only ask for money, but must also allow for other ways of involvement;
+      <br>- ad must also comply with the general approval conditions.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#news-section">Posting to main interest pages</a>
+    <div id="news-section" class="collapse">
+      Main interest pages act as an important news feed to our personas and a good and free way to advertise. Article
+      views and clicks are counted and comments are turned off.
+      <br>We try to maximize the relevancy of such articles and so we approve only subjects deemed important and
+      relevant to the specific interest. Positive examples: financial interest - financial status, books interest
+      - thoughts of author or book launch, games interest - game progress or launch. Negative examples: books
+      interest - financial status.
+      <br>To avoid spam: only a specific number of articles will be allowed per month, articles will have at least
+      1 hour intervals between posting time and will not repeat the same article. All modifications to the article
+      must be re-approved. Including deceiptive or infected links/websites in the article or failure to comply with
+      the spam avoidance conditions above might lead to a temporary or permanent block on posting articles to
+      interest pages.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#ad-approval">When is your ad going to be approved</a>
+    <div id="ad-approval" class="collapse">
+      After creating/modifying your ad it will be queued for approval. For your ad to be approved it must comply with
+      the conditions below:
+      <br>- if you are submitting your first non-civic ad you will have to send us an email with your billing details and the
+      ad id. You will receive a confirmation token if all information is correct, otherwise a request for more info.
+      This is a one time process meant to verify that you are indeed a payable entity before we start reviewing your ads.
+      All bills will go to the email address you used to contact us.
+      <br>- ad must be a static jpeg or png image;
+      <br>- image must have a size ratio of 4.5x1 (eg. 450px width with 100px height);
+      <br>- must not depict offensive, hateful or other discomforting or law breaking images or similar messages;
+      <br>- linked url must not lead to scam, infected or dubious sites and must not redirect unless approved by us.
+      <br>The conditions apply for the whole time that the ad is running. All modifications will pause running the ad
+      and prompt for re-approval.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#ad-info-provided">What info is provided about the personas' interactions</a>
+    <div id="ad-info-provided" class="collapse">
+      Whenever an ad loads for a persona that hasn't seen it, their marketing id will be added to a list of unique viewers.
+      Whenever an ad loads for a persona that has already seen the ad, the total of ad views will be incremented.
+      When a persona clicks on an ad the marketing id and the main interest of the page the persona was on may be provided.
+    </div>
+  </li>
+  <li>
+    <a href="#" data-toggle="collapse" data-target="#ad-cost">How much does it cost to run ads</a>
+    <div id="ad-cost" class="collapse">
+      We wish to be transparent and charge fair costs to you, so you may be billed per times the ad was displayed and
+      times clicked. All price changes will take effect at the beginning of month, after they were announced.
+      We may sometimes offer free trials.
+    </div>
+  </li>
+</ol>

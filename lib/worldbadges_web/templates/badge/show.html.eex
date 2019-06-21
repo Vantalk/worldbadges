@@ -1,0 +1,23 @@
+<h2>Show Badge</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @badge.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%#= @badge.description %>
+  </li>
+
+  <li>
+    <strong>Requirements:</strong>
+    <%#= @badge.requirements %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: badge_path(@conn, :edit, @badge) %></span>
+<span><%= link "Back", to: badge_path(@conn, :index) %></span>

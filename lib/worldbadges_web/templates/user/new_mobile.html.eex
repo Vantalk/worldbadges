@@ -1,0 +1,57 @@
+<script type="text/javascript">
+  function createUser(event) {
+    if (event.keyCode == 13) document.getElementById('form').submit()
+  }
+</script>
+<%= if false do # @changeset.action do %>
+ <div class="alert alert-danger">
+   <p>There are some form errors.</p>
+ </div>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h3 style="margin-top: 3vh;">Create account</h3>
+      <%= form_for @changeset, user_path(@conn, :create), [id: "form", class: "form-horizontal"], fn f -> %>
+
+      <!-- <div class="form-group">
+        <label class="control-label col-sm-4" for="email">Displayed name:</label>
+        <div class="col-sm-8">
+          <%#= text_input f, :name, placeholder: "Nick or name", class: "form-control" %>
+          <%#= error_tag f, :name %>
+        </div>
+      </div> -->
+      <div class="form-group">
+        <label class="control-label" for="email">Login Key:</label>
+        <%= text_input f, :key, placeholder: "Keyword or sequence", class: "form-control", onkeyup: "createUser(event)" %>
+        <small style="color: red"><%= error_tag f, :key %></small>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="email">Login Password:</label>
+        <%= password_input f, :password, placeholder: "Password", class: "form-control", onkeyup: "createUser(event)" %>
+        <small style="color: red"><%= error_tag f, :password %></small>
+      </div>
+      <%= render "_privacy_mobile.html", conn: @conn %><br>
+      <div class="form-group">
+        <%= checkbox f, :licence, required: true %>
+        <span>I understand this is a demo and that all data will be deleted at&nbsp;0:00UTC</span><br>
+        <%= checkbox f, :licence, required: true %>
+        <span>I agree to the <%= link "terms and conditions", to: "/help#terms-and-conditions", style: "text-decoration: underline" %> and I understand that this website uses cookies for functionality. <%#= link "Terms and conditions", to: "/", target: "_blank" %></span>
+      </div>
+
+      <div class="btn-group btn-group-justified">
+        <button type="submit" name="button" class="btn btn-log-in"><i class="fa fa-id-badge"></i> Create account</button>
+        <a href="/session/new" class="btn btn-log-in"><i class="fa fa-angle-double-right"></i> Log in</a>
+        <a href="/help" class="btn btn-log-in"><i class="fa fa-info"></i> Help</a>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= render WorldbadgesWeb.SharedView, "_footer.html" %>
+
+<script>
+  document.getElementById("user_licence").checked = false;
+</script>

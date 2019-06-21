@@ -1,0 +1,5 @@
+<h2>New Style</h2>
+
+<%= render "form.html", Map.put(assigns, :action, style_path(@conn, :create)) %>
+
+<span><%= link "Back", to: style_path(@conn, :index) %></span>

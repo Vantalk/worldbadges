@@ -1,0 +1,5 @@
+.form-group-responsive {width: 24vw;}
+
+@media (max-width: 768px) {
+  .form-group-responsive {width: 80vw;}
+}

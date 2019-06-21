@@ -1,0 +1,20 @@
+<div id="head-badge">
+  <h4 class="main-color">
+    <i class="fa fa-shield" aria-hidden="true"></i> Badge
+    <b class="btn btn-sm btn-success" onclick="saveCanvas()">Save</b>
+  </h4>
+  <a href="#" id="list-text" onclick="toggleList(this, 'badge')"><i class="fa fa-list" aria-hidden="true"></i> List all</a>
+  &nbsp;
+  <a href="#" id="learn-text" onclick="toggleDesc(this, 'badge')"><i class="fa fa-info-circle" aria-hidden="true"></i> Learn more</a>
+</div>
+
+<br>
+
+<div id="list-badge"></div>
+
+<div id="desc-badge" hidden>
+  Worldbadges are used to represent interests and pages, filter content and find people with shared interests. Each badge
+  belongs to a parent badge.
+  <br><b>Creation:</b> Upload a picture, choose a shape and a name. Use the slider to resize and click on picture
+  to adjust position.
+</div>

@@ -1,0 +1,13 @@
+<%= render WorldbadgesWeb.SharedView, "_creation_js.html" %>
+
+<div class="row">
+  <%= render WorldbadgesWeb.SharedView, "_control_bar.html", conn: @conn, current_persona: @current_persona %>
+
+  <div class="col-sm-10">
+    <%= render "_head.html" %>
+
+    <div id="opt-badge">
+      <%= render "_form.html", action: badge_path(@conn, :create), changeset: @changeset, badge: @badge %>
+    </div>
+  </div>
+</div>

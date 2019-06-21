@@ -1,0 +1,36 @@
+<script type="text/javascript">
+  function logIn(event) {
+    if (event.keyCode == 13) document.getElementById('form').submit()
+  }
+</script>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm-5" >
+      <%= img_tag "/images/background.png", style: "width: 50%; margin: 25px auto 0 auto; display: block;" %>
+    </div>
+
+    <div class="col-sm-5">
+      <h3 style="margin-top: 6vh;">Log in</h3>
+      <%= form_for @conn, session_path(@conn, :create), [as: :session, id: "form"], fn f -> %>
+        <div class="form-group">
+          <%= text_input f, :key, placeholder: "Key", class: "form-control", onkeyup: "logIn(event)" %>
+          <%= error_tag f,  :key %>
+        </div>
+        <div class="form-group">
+          <%= password_input f, :password, placeholder: "Password", class: "form-control", onkeyup: "logIn(event)" %>
+          <%= error_tag f, :password %>
+        </div><br>
+        <div class="btn-group btn-group-justified">
+          <a onclick="document.getElementById('form').submit()" class="btn btn-log-in"><i class="fa fa-angle-double-right"></i> Log in</a>
+          <a href="/user/new" class="btn btn-log-in"><i class="fa fa-id-badge"></i> Create account</a>
+          <a href="/help" class="btn btn-log-in"><i class="fa fa-info"></i> Help</a>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>
+
+<%= render WorldbadgesWeb.SharedView, "_footer.html" %>

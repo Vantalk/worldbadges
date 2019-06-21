@@ -1,0 +1,8 @@
+<%= for contact <- @contacts do %>
+  <div class='<%= if not contact.image in @presences, do: "offline" %>'>
+    <%= link to: link_for_persona(contact) do %>
+      <%= img_tag image_for_persona(contact), class: "small-image" %>
+    <% end %>
+    <%= link contact.name, to: "#", data: [chat: contact.id, pid: @current_persona.id], class: "btn btn-sm btn-link" %>
+  </div>
+<% end %>

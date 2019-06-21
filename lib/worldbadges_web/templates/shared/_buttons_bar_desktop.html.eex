@@ -1,0 +1,61 @@
+<script type="text/javascript">
+  function showPageBoxSection(id, obj) {
+    hideElements(['page-box-write', 'page-box-members', 'page-box-settings']);
+    removeClass(['pb-write', 'pb-members', 'pb-settings'], 'main-bg');
+
+    if (id)  {document.getElementById(id).hidden = false}
+    if (obj) {obj.classList.add('main-bg')}
+  }
+
+  function showMembersSection(id) {
+    var array = ['mb-accordion', 'mb-back', 'mb-buttons', 'mb-invited', 'mb-waiting']
+
+    switch (id) {
+      case 'mb-accordion':
+        hideElements(array)
+        showElements(['mb-buttons', id])
+        break;
+      case 'mb-waiting':
+        hideElements(array)
+        showElements(['mb-back', id])
+        break;
+      case 'mb-invited':
+        hideElements(array)
+        showElements(['mb-back', id])
+        break;
+    }
+  }
+</script>
+
+<div class="btn-group d-flex" role="group">
+  <!-- SETTINGS -->
+  <div class="btn-group w-100">
+    <button title="Options menu" type="button" class="btn w-100 dropdown-toggle main-bg" data-toggle="dropdown">
+      <i class="fa fa-bars" aria-hidden="true"></i>
+    </button>
+    <div class="dropdown-menu quick-menu2">
+      <%= link raw("<i class='fa fa-cogs' aria-hidden='true'></i> Settings"), to: shared_path(@conn, :access_settings), class: "dropdown-item link" %>
+      <%= link raw("<i class='fa fa-braille' aria-hidden='true'></i> Preferences"), to: persona_path(@conn, :edit, @current_persona), class: "dropdown-item link" %>
+      <%= link raw("<i class='fa fa-cubes' aria-hidden='true'></i> Create/edit objects"), to: badge_path(@conn, :new), class: "dropdown-item link" %>
+      <hr>
+      <%= link raw("<i class='fa fa-question' aria-hidden='true'></i> Help and info"), to: shared_path(@conn, :help), class: "dropdown-item link" %>
+      <%= link raw("<i class='fa fa-sign-out' aria-hidden='true'></i> Log out"), to: session_path(@conn, :delete, @current_persona), method: "delete", class: "dropdown-item link" %>
+    </div>
+  </div>
+
+  <!-- CHAT NOTIFICATIONS -->
+  <button title="Chat notifications" type="button" class="btn w-100 main-bg" onclick="eventsBoxToggle('chat', <%= @current_persona.id %>, true)">
+    <i class="chat-icon fa fa-comment-o" aria-hidden="true"></i><small></small>
+  </button>
+
+  <!-- POSTS NOTIFICATIONS -->
+  <button title="Posts notifications" type="button" class="btn w-100 main-bg" onclick="eventsBoxToggle('posting', <%= @current_persona.id %>, true)">
+    <i id="posts-icon" class="fa fa-file-text-o" aria-hidden="true"></i><small></small>
+  </button>
+
+  <!-- POST -->
+  <button title="Write articles or messages" type="button" class="btn w-100 main-bg" onclick="pageBoxToggle()">
+    <i class="fa fa-pencil" aria-hidden="true"></i>
+  </button>
+</div>
+<%= render WorldbadgesWeb.SharedView, "_write_box_desktop.html", conn: @conn, current_persona: @current_persona %>

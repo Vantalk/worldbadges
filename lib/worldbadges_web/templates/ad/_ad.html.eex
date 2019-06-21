@@ -1,0 +1,3 @@
+<%= link to: @ad.url, id: "ad" do %>
+  <%= img_tag image_for_ad(@ad), style: "height: 97px; width:100%" %>
+<% end %>
