@@ -1,3 +1,5 @@
+:warning: The project is firstly a personal experiment and proof of concept. It breaks conventional rules and is still a WIP, but it is, for the most part, a functional platform.
+
 # WorldBadges
 
 WorldBadges is an innovative social media platform project meant to provide high
@@ -17,7 +19,6 @@ To start your Phoenix server:
 Important:
   * You will need to specify `@host` and paths for your website files in `channels_shared.ex`.
   * Placeholder images are not included.
-  * WorldBadges is still a work in progress and does not offer any warranties.
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
